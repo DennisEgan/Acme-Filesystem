@@ -8,17 +8,26 @@ class FCB{
 public:
 	FCB();
 	FCB(const FCB &);
+	~FCB();
+
 	const FCB& operator=(const FCB &);
+
 	FCB(int, int, string);
+	
 	string getFileName();
-	int getBlockPointer();
+	
+	int  getBlockPointer();
 	void setBlockPointer(int);
-	int getSize();
+	
+	int  getSize();
 	void setSize(int);
-	int getBlockSize();
+	
+	int  getBlockSize();
 	void setBlockSize(int);
-	int getFileEnd();
+	
+	int  getFileEnd();
 	void setFileEnd(int);
+	
 	void print();
 
 

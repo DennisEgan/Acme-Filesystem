@@ -3,6 +3,8 @@
 #include <cstring>
 #include <vector>
 using namespace std;
+
+// Constructor
 FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
 	// for (int i = 0; i <DISK_SIZE; i++){
 	// 	DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
@@ -16,13 +18,18 @@ FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
 	freespace = new FCB(0, 0, "freespace");
 	freespace->setBlockSize(DISK_SIZE);
 }
+
+// Deconstructor
 FileSystem::~FileSystem(){
 	delete freespace;
 	for (int i = 0; i < files.size(); i++){
 		delete files[i];
-		files[i] = NULL;
+		files.erase(files.begin()+i)
+		// files[i] = NULL;
 	}
 }
+
+// Create file with name fileName
 bool FileSystem::create(string fileName){
 	FCB* newfile = new FCB(0, -1, fileName);
 	files.push_back(newfile);
@@ -33,9 +40,12 @@ bool FileSystem::create(string fileName){
 	// cout << endl;
 }
 
+// Open file in specified mode
 int FileSystem::open(string filename, string mode){
 	cout << "opening " << filename << "..." << endl;
+	
 	FCB *tmp = NULL;
+
 	int searchVal = search(filename);
 	if (searchVal != -1){
 		if (mode == "w"){
@@ -48,6 +58,7 @@ int FileSystem::open(string filename, string mode){
 	// cout << "TEMPORARY: " << tmp << endl;
 	// cout << "REAL: " << files[0] << endl;
 }
+
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
 	int searchVal = search(FOT[handle]->getFileName());
@@ -66,6 +77,7 @@ bool FileSystem::close(int handle){
 	//cout << "FOT[0]" << (FOT[0]) << endl;
 	//FOT[0]->print();
 }
+
 int FileSystem::read(int handle, int numchars, char *buffer){
 	cout << "Number Of Chars to Read " << numchars << endl;
 	int nextBlockToRead = 0;
@@ -235,4 +247,9 @@ int FileSystem::getNumChars(int file){
 	files[file]->print();
 	cout << "file size = " << files[file]->getSize() << endl;
 	return FOT[file]->getSize();
+}
+
+bool FileSystem::delete(string fileName)
+{
+		
 }
