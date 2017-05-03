@@ -1,4 +1,4 @@
 git add .
 git commit -m "Latest commit"
-git pull
-git push
+git pull origin master
+git push origin master
