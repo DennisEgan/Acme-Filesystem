@@ -68,6 +68,7 @@ int DiskProcessType::read(int bnum, DiskBlockType *buffer){
   if (logging) 
     logfile<<"DISK: Read to block "<<bnum<<"\n";
   return 0;
+  
 }
   
   // write a block to the disk. Will create the block data

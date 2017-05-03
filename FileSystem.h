@@ -25,12 +25,17 @@ public:
 	int getNumChars(int);
 	int getFreeBlock();
 
+	FCB*       getFile(string name);
+	Directory* getDirectory()
+
 private:
 
 	DiskProcessType myDisk;
-	FCB* freespace;
-	vector<FCB*>files;
+	FCB* freespace;		// ??
+	vector<FCB*>files;	// No more files, use directory in future
+	Directory directory;
 	vector<FCB*>FOT;
 
 };
+
 #endif

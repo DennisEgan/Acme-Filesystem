@@ -24,20 +24,14 @@ class Directory
 		string getName();
 		void   setName();
 
-		int    getSize();
-		int    changeSize();
-
-		string getFiles();
-
 		// Methods
 		vector<FCB*> getFiles();
-		FCB*		 getFile();
+		FCB*		 getFile(string name);
 		bool		 addFile();
-		bool 		 removeFile();
+		bool 		 deleteFile();
 		bool 		 containsFile(string name);
 
 	private:
-		int size;
 		string name;
 		vector<FCB*> files;
 };

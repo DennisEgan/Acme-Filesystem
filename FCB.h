@@ -4,6 +4,10 @@ using std::string;
 #ifndef FCB_H
 #define FCB_H
 
+#define F_CLOSE -1
+#define F_READ	 0
+#define F_WRITE  1
+
 class FCB{
 public:
 	FCB();
@@ -28,6 +32,9 @@ public:
 	int  getFileEnd();
 	void setFileEnd(int);
 	
+	bool setMode(char);
+	char getMode();
+	
 	void print();
 
 
@@ -36,7 +43,8 @@ private:
 	int blockSize;
 	int blockPointer;
 	int fileEnd;
+	int mode;
 	string fileName;
-
 };
+
 #endif

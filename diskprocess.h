@@ -66,14 +66,16 @@ class DiskProcessType {
     blockSize=bsize;
     numBlocks=bnum;
     numCreated=numReads=numWrites=currentBlock=0;
+
     for (int i=0; i<numBlocks; i++)
-      disk.push_back(NULL); // initialize block ptrs
+      disk.push_back(NULL);         // initialize block ptrs
   };
 
   ~DiskProcessType() { // clean up the disk nicely
     for (int i=0; i<numBlocks; i++)
       if (disk[i]!=NULL) // block was used
-	delete disk[i]; // so free it up
+	      delete disk[i]; // so free it up
+  
     if (logging) {
       logfile << "DISK: Terminating.\n";
       logfile << "DISK: Blocks created were "<<numCreated<<" of total "
