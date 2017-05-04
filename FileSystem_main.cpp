@@ -32,15 +32,16 @@ int main(){
 	char test1[] = "Hello";
 	char test2[] = ", We are group 1. ";
 	char test3[] = "This is a test sentence.";
-	// char test4[] = ". \n";
-	// char test5[] = "Still Appending to a fi";
-	// char test6[] = "le. Bye! And now I am trying to cause the disk to run out of space itshouldstophere blaaaaaaaaaa";
-	// char test7[] = "bitshouldstop";
+	char test4[] = ". \n";
+	char test5[] = "Still Appending to a fi";
+	char test6[] = "le. Bye! And now I am trying to cause the disk to run out of space itshouldstophere blaaaaaaaaaa";
+	char test7[] = "bitshouldstop";
 	char test[256];
 
 	cout << "\n\n" << eqBuf << "\n\nTest writing files\n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and writing to " << hello << endl;
+	
 	if(FS.open(hello, 'w') != -1) {
 		int num1 = FS.write(0, strlen(test1), test1);
 		FS.close(0);
@@ -83,7 +84,7 @@ int main(){
 
 	cout << "\nOpening and writing to " << hello << endl;
 	if(FS.open(hello, 'w') != -1) {
-		num3 = FS.write(0, strlen(test3), test3);
+		int num3 = FS.write(0, strlen(test3), test3);
 		FS.close(0);
 	}
 	else
@@ -92,6 +93,9 @@ int main(){
 	 * Test reading
 	 */
 	//int g = FS.read(0, strlen(test1), test1);
+
+	//when reading back from file the buffer passed should be test
+	//it should a different buffer from what you used to write the file
 
 	cout << "\n\n" << eqBuf << "\n\nTest reading from files\n\n" << eqBuf << "\n\n";
 
@@ -112,7 +116,7 @@ int main(){
 	FS.open(goodbye, 'r');
 	int g = FS.read(0, strlen(test1), test1);
 	// TODO what's going on here?
-	int g = FS.read(0, strlen(test1), test);
+	g = FS.read(0, strlen(test1), test);
 	FS.close(0);
 	cout << "\nclosing\n" << endl;
 	/*
@@ -121,7 +125,7 @@ int main(){
 
 	cout <<"\n\n" << eqBuf << "\n\nTest deleting files\n\n" << eqBuf << "\n\n";
 	FS.deleteFile(goodbye);
-	cout << "yOOOOOOSADWQUT09QWY" << endl;
+	cout << "Deleted first file" << endl;
 	FS.deleteFile(hello);
 	cout << "Deleted another file" << endl;
 

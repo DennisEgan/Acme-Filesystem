@@ -45,6 +45,7 @@ FCB* FileSystem::getFile(string name){
 int FileSystem::open(string filename, char mode){
 	cout << "opening " << filename << "..." << endl;
 	cout << filename << " is in directory: " << directory->containsFile(filename) << endl;
+	
 	if((mode == 'r' || mode == 'w') && directory->containsFile(filename)){
 
 		// File already in FOT, update mode
@@ -57,8 +58,10 @@ int FileSystem::open(string filename, char mode){
 		// File not in FOT, put into FOT and change mode
 		else{
 			FCB* openFile = new FCB(*(directory->getFile(filename)));
+			cout << "Printing OPENFILE" << endl;
+			openFile->print();
 			openFile->setMode(mode);
-			openFile->setFileName(filename);
+			//openFile->setFileName(filename);
 			FOT.push_back(openFile);
 			idx = FOT.size()-1;
 		}

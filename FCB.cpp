@@ -47,6 +47,7 @@ const FCB& FCB::operator=(const FCB &right){
 	this->blockSize = right.blockSize;
 	this->fileName = right.fileName;
 	this->fileEnd = right.fileEnd;
+	this->mode = right.mode;
 	return (*this);
 }
 
