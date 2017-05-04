@@ -1,4 +1,4 @@
-//Author: Justin Lesko
+//File Author: Justin Lesko
 //File Control Block implementation file
 
 #include "FCB.h"
@@ -39,6 +39,7 @@ void FCB::setSize(int a){ size = a; };
 int FCB::getFileEnd(){ return fileEnd; };
 void FCB::setFileEnd(int a){ fileEnd = a; };
 string FCB::getFileName(){ return fileName; };
+void FCB::setFileName(string name){ fileName = name; };
 
 void FCB::print(){
 	cout << "------------------------" << endl;

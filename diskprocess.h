@@ -27,8 +27,8 @@
 #include <fstream>
 #include <vector>
 using namespace std;
-// This class define what a bock on a disk is
 
+// This class define what a bock on a disk is
 class DiskBlockType {
  public:
   int blockSize;

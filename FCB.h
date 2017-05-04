@@ -10,6 +10,7 @@ public:
 	FCB(const FCB &);
 	const FCB& operator=(const FCB &);
 	FCB(int, int, string);
+	void setFileName(string);
 	string getFileName();
 	int getBlockPointer();
 	void setBlockPointer(int);

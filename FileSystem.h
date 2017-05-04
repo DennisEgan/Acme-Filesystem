@@ -20,6 +20,7 @@ public:
 	int write(int, int, char*);
 	int getNumChars(int);
 	int getFreeBlock();
+	bool deleteFile(string);
 
 private:
 	DiskProcessType myDisk;

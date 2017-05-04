@@ -15,7 +15,8 @@ int main(){
 	F1.create("hello.txt");
 	F1.create("GOODBYE.txt");
 	F1.open("hello.txt", "w");
-	char test1[] = "Hello";
+	F1.create("HOLA.txt");
+	char test1[] = "Hello, What's up, What's happening, it's all good here";
 	char test2[] = ", my name is Justin Lesko";
 	char test3[] = "This is a test sentence.";
 	char test4[] = ". \n";
@@ -43,10 +44,23 @@ int main(){
 	F1.close(0);
 	memset(test, 0, 256);
 
-
 	F1.open("GOODBYE.txt", "w");
 	int g = F1.read(0, F1.getNumChars(0), test);
 	F1.close(0);
+	F1.deleteFile("GOODBYE.txt");
+	cout << "yOOOOOOSADWQUT09QWY" << endl;
+	F1.deleteFile("hello.txt");
+	cout << "Deleted another file" << endl;
+	memset(test, 0, 256);
+
+	F1.open("HOLA.txt", "w");
+	num1 = F1.write(0, strlen(test1), test1);
+	num2 = F1.write(0, strlen(test2), test2);
+	num = F1.read(0, F1.getNumChars(0), test);
+	F1.close(0);
+
+	F1.open("hello.txt", "w");
+
 
 	// cout << "chars written = " << num << endl;
 

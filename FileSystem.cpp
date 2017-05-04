@@ -3,19 +3,24 @@
 #include <cstring>
 #include <vector>
 using namespace std;
+
+//procedure author: Justin Lesko
 FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
-	// for (int i = 0; i <DISK_SIZE; i++){
-	// 	DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
-	// 	if (i < (DISK_SIZE-1))
-	// 		myBuffer->data[0] = (unsigned char)(i+1);
-	// 	else
-	// 		myBuffer->data[0] = (unsigned char)(-1);
-	// 	myDisk.write(i, myBuffer);
-	// 	delete myBuffer;
-	// }
+	//link blocks
+	for (int i = 0; i <DISK_SIZE; i++){
+		DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
+		if (i < (DISK_SIZE-1))
+			myBuffer->data[0] = (unsigned char)(i+1);
+		else
+			myBuffer->data[0] = (unsigned char)(-1);
+		myDisk.write(i, myBuffer);
+		delete myBuffer;
+	}
 	freespace = new FCB(0, 0, "freespace");
 	freespace->setBlockSize(DISK_SIZE);
+	freespace->setFileEnd(DISK_SIZE-1);
 }
+//procedure author: Justin Lesko
 FileSystem::~FileSystem(){
 	delete freespace;
 	for (int i = 0; i < files.size(); i++){
@@ -23,16 +28,13 @@ FileSystem::~FileSystem(){
 		files[i] = NULL;
 	}
 }
+//procedure author: Justin Lesko
 bool FileSystem::create(string fileName){
 	FCB* newfile = new FCB(0, -1, fileName);
 	files.push_back(newfile);
-	// cout << "newfile" << endl;
-	// newfile->print();
-	// cout << "freespace" << endl;
-	// freespace->print();
-	// cout << endl;
 }
 
+//procedure author: Justin Lesko
 int FileSystem::open(string filename, string mode){
 	cout << "opening " << filename << "..." << endl;
 	FCB *tmp = NULL;
@@ -44,10 +46,14 @@ int FileSystem::open(string filename, string mode){
 			tmp->print();
 			FOT.push_back(tmp);
 		}
+		return 0;
 	}
-	// cout << "TEMPORARY: " << tmp << endl;
-	// cout << "REAL: " << files[0] << endl;
+	else{
+		cout << "ERROR: Unable to open file: " << filename << " as it does not exist." << endl;
+	}
 }
+
+//procedure author: Justin Lesko
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
 	int searchVal = search(FOT[handle]->getFileName());
@@ -66,6 +72,7 @@ bool FileSystem::close(int handle){
 	//cout << "FOT[0]" << (FOT[0]) << endl;
 	//FOT[0]->print();
 }
+//procedure author: Justin Lesko
 int FileSystem::read(int handle, int numchars, char *buffer){
 	cout << "Number Of Chars to Read " << numchars << endl;
 	int nextBlockToRead = 0;
@@ -96,6 +103,7 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 	}
 	cout << endl;
 }
+//procedure author: Justin Lesko
 int FileSystem::write(int handle, int numchars, char* buffer){
 	cout << "Writing to " << FOT[handle]->getFileName() << "..." << endl;
 	cout << "Number of chars to write = " << numchars << endl;
@@ -208,12 +216,17 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 	return charsWritten;
 }
 
+//procedure author: Justin Lesko
 int FileSystem::getFreeBlock(){
 	int blockIndex = 0;
 	if (freespace->getBlockSize() != 0){
 		blockIndex = freespace->getBlockPointer();//save block location
+		DiskBlockType *readBuffer = new DiskBlockType(BLOCK_SIZE);
+		myDisk.read(blockIndex, readBuffer);
+		int nextBlockToRead = readBuffer->data[0];
 		freespace->setBlockSize(freespace->getBlockSize()-1);//decrement freespace size
-		freespace->setBlockPointer(freespace->getBlockPointer()+1);//move freespace pointer forward
+		freespace->setBlockPointer(nextBlockToRead);//move freespace pointer forward
+		delete readBuffer;
 	}
 	else{
 		blockIndex = -1;
@@ -222,6 +235,45 @@ int FileSystem::getFreeBlock(){
 	cout << "freespace blocks left = " << freespace->getBlockSize() << "/" << DISK_SIZE << endl;
 	return blockIndex;
 }
+bool FileSystem::deleteFile(string filename){
+	int searchVal = search(filename);
+	if (searchVal != -1){
+		cout << "FILE WAS FOUND" << endl;
+		if (freespace->getBlockPointer() != -1){
+			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
+			myDisk.read(freespace->getFileEnd(), freeBuffer);
+			freeBuffer->data[0] = files[searchVal]->getBlockPointer();
+			myDisk.write(freespace->getFileEnd(), freeBuffer);
+			freespace->setFileEnd(files[searchVal]->getFileEnd());
+			freespace->setBlockSize(freespace->getBlockSize() + files[searchVal]->getBlockSize());
+			delete freeBuffer;
+			freeBuffer = NULL;
+            delete files[searchVal];
+            files[searchVal] = NULL;
+            files.erase(files.begin() + searchVal);
+		}
+		else{
+			cout << "Freespace was empty" << endl;
+			delete freespace;
+			freespace = new FCB(*(files[searchVal]));
+			//freespace->operator=(*(files[searchVal]));
+            delete files[searchVal];
+            files[searchVal] = NULL;
+            files.erase(files.begin() + searchVal);
+			cout << "PRINTING FREESPACE COPY" << endl;
+			freespace->print();
+			cout << "......................." << endl;
+			freespace -> setFileName("freespace");
+            freespace->print();
+		}
+        return true;
+	}
+	else{
+		cout << "file not found to delete" << endl;
+        return false;
+	}
+}
+//procedure author: Justin Lesko
 int FileSystem::search(string fileName){
 	int index = -1;
 	for (int i = 0; i < files.size(); i++){
@@ -231,8 +283,9 @@ int FileSystem::search(string fileName){
 	}
 	return index;
 }
+//procedure author: Justin Lesko
 int FileSystem::getNumChars(int file){
-	files[file]->print();
+	//files[file]->print();
 	cout << "file size = " << files[file]->getSize() << endl;
 	return FOT[file]->getSize();
 }
