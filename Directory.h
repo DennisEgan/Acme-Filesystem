@@ -1,6 +1,14 @@
 /*
  * Directory.h
  *
+ * Header file for ATOS FS Directory class
+ *
+ * Lead author:
+ *  Dennis Egan
+ *
+ * Contributors:
+ *  Justin Lesko
+ *  Armando Califano
  */
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
