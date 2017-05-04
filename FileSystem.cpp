@@ -32,7 +32,7 @@ FileSystem::~FileSystem(){
 }
 
 // Create file with name fileName
-bool FileSystem::create(string fileName){ return directory.addFile(filename); }
+bool FileSystem::create(string fileName){ return directory->createFile(fileName); }
 
 // OLD
 	// FCB* newfile = new FCB(0, -1, fileName);
@@ -40,7 +40,7 @@ bool FileSystem::create(string fileName){ return directory.addFile(filename); }
 	// // cout << "newfile" << endl;
 	// // newfile->print();
 	// // cout << "freespace" << endl;
-	// // freespace->print();
+	// // freespace->();
 	// // cout << endl;
 // }
 
@@ -49,9 +49,9 @@ int FileSystem::open(string filename, char mode)
 {
 	cout << "opening " << filename << "..." << endl;
 	
-	if(directory.containsFile(fileName))
+	if(directory->containsFile(filename))
 	{
-		FCB* openFile = new FCB(directory.getFile(filename));
+		FCB* openFile = new FCB(*directory->getFile(filename));
 		
 		if(openFile->setMode(mode)){
 			FOT.push_back(openFile);	
@@ -61,7 +61,7 @@ int FileSystem::open(string filename, char mode)
 			cerr << "Invalid file mode: " << mode << endl
 				 << "Valid modes are 'r' and 'w'" << endl;
 			
-			return -1
+			return -1;
 		}
 
 	}
@@ -87,18 +87,18 @@ int FileSystem::open(string filename, char mode)
 		// }
 }
 
-bool FileSystem::delete(string fileName){ return directory.deleteFile(fileName); }
+bool FileSystem::deleteFile(string fileName){ return directory->deleteFile(fileName); }
 
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
 	
 	int searchVal = search(FOT[handle]->getFileName());
-	directory.deleteFile(FOT[handle]->getFileName());
+	directory->deleteFile(FOT[handle]->getFileName());
 	
 	FCB* updatedFile = new FCB(*FOT[handle]);
 	updatedFile->setMode('c');
 
-	directory.addFile(new FCB(*FOT[handle]));
+	directory->addFile(new FCB(*FOT[handle]));
 
 	delete FOT[handle];
 	FOT.erase(FOT.begin()+handle);
@@ -159,7 +159,7 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 	}
 	cout << endl;
 
-	return numchars
+	return numchars;
 
 }
 
@@ -175,7 +175,7 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 	
 	int sentinel = -1,
 	    blockToWrite = 0,
-	    nextBlockToWrite = 0;,
+	    nextBlockToWrite = 0,
 	    readChar = 0,
 	    writeChar = 0,
 	    offset = 0,
@@ -285,29 +285,29 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 	return charsWritten;
 }
 
-bool FileSystem::deleteFile(string name)
-{
-	FCB* tmp = directory.getFile(name);
+// bool FileSystem::deleteFile(string name)
+// {
+// 	FCB* tmp = directory->getFile(name);
 
-	// File found in directory
-	if(tmp != NULL)
-	{
-		int blockPtr  = tmp->getBlockPointer(),
-		    blockSize = tmp->getBlockSize();
+// 	// File found in directory
+// 	if(tmp != NULL)
+// 	{
+// 		int blockPtr  = tmp->getBlockPointer(),
+// 		    blockSize = tmp->getBlockSize();
 
-		   // Update free blocks and block pointer 
-		   freespace->setBlockSize(freespace->getBlockSize()+blockSize);
-		   freespace->setBlockPointer(blockPtr);
+// 		   // Update free blocks and block pointer 
+// 		   freespace->setBlockSize(freespace->getBlockSize()+blockSize);
+// 		   freespace->setBlockPointer(blockPtr);
 
 
-	}
+// 	}
 
-	// File not in directory
-	else
-		return false;
-}
+// 	// File not in directory
+// 	else
+// 		return false;
+// }
 
-FCB* FileSystem::getFile(string name){ return directory.getFile(name); }
+FCB* FileSystem::getFile(string name){ return directory->getFile(name); }
 
 int FileSystem::getFreeBlock(){
 	int blockIndex = 0;

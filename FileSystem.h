@@ -16,7 +16,7 @@ public:
 
 	bool create(string);
 	bool close(int);
-	int  open(string, string);
+	int  open(string, char);
 	int  search(string);
 
 	int read(int, int, char*);
@@ -26,14 +26,16 @@ public:
 	int getFreeBlock();
 
 	FCB*       getFile(string name);
-	Directory* getDirectory()
+	bool       deleteFile(string name);
 
+	Directory* getDirectory();
+	bool	   deleteDirectory();
 private:
 
 	DiskProcessType myDisk;
 	FCB* freespace;		// ??
 	vector<FCB*>files;	// No more files, use directory in future
-	Directory directory;
+	Directory* directory;
 	vector<FCB*>FOT;
 
 };

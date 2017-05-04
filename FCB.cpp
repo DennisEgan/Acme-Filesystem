@@ -5,16 +5,13 @@
 #include <iostream>
 using namespace std;
 
-#define F_CLOSE -1
-#define F_READ	 0
-#define F_WRITE  1
-
 FCB::FCB(){
 	size = 0;
 	blockSize = 0;
 	blockPointer = -1;
 	fileEnd = -1;
 	fileName = "";
+	mode = 'c';
 }
 
 FCB::FCB(const FCB &toCopy){
@@ -27,6 +24,7 @@ FCB::FCB(int s, int b, string name){
 	blockPointer = b;
 	fileEnd = -1;
 	fileName = name;
+	mode = 'c';
 }
 
 FCB::~FCB()
@@ -52,26 +50,19 @@ void   FCB::setSize(int a){ size = a; };
 int    FCB::getFileEnd(){ return fileEnd; };
 void   FCB::setFileEnd(int a){ fileEnd = a; };
 string FCB::getFileName(){ return fileName; };
+void   FCB::setFileName(string name){ fileName = name; }
 
-char getMode(){ return mode; }
-bool setMode(char mode)
+char FCB::getMode(){ return mode; };
+bool FCB::setMode(char fMode)
 {
-	if(mode == 'r'){
-		mode = F_READ;
+	if(fMode == 'r' || fMode == 'w' || fMode == 'c')
+	{
+		mode = fMode;
 		return true;
-	}
-	else if(mode == 'w'){
-		mode = F_WRITE;
-		return true;
-	}
-	else if(mode == 'c'){
-		mode = F_CLOSE;
-		return true
 	}
 	else
-		return false
-
-}
+		return false;
+};
 
 void FCB::print(){
 	cout << "------------------------" << endl;

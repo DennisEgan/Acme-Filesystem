@@ -22,14 +22,16 @@ class Directory
 
 		// Getters and setters
 		string getName();
-		void   setName();
+		void   setName(string name);
 
 		// Methods
+		int 		 getSize();
 		vector<FCB*> getFiles();
-		FCB*		 getFile(string name);
-		bool		 addFile();
-		bool 		 deleteFile();
-		bool 		 containsFile(string name);
+		FCB*		 getFile(string fileName);
+		bool		 addFile(FCB* newFile);
+		bool		 createFile(string fileName);
+		bool 		 deleteFile(string fileName);
+		bool 		 containsFile(string);
 
 	private:
 		string name;
