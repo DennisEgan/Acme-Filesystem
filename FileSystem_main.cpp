@@ -17,7 +17,7 @@ int main(){
 	// Create two files
 	string file1 = "hello.txt",
 		   file2 = "goodbye.txt",
-		   file3 = "HOLA.txt";
+		   file3 = "hola.txt";
 
 	cout << FS.create(file1) << " & "
 	     << FS.create(file2) << " & "
@@ -28,12 +28,12 @@ int main(){
 	 */
 	
 	char test1[] = "Hello";
-	char test2[] = ", my name is Justin Lesko";
+	char test2[] = ", We are group 1. ";
 	char test3[] = "This is a test sentence.";
-	char test4[] = ". \n";
-	char test5[] = "Still Appending to a fi";
-	char test6[] = "le. Bye! And now I am trying to cause the disk to run out of space itshouldstophere blaaaaaaaaaa";
-	char test7[] = "bitshouldstop";
+	// char test4[] = ". \n";
+	// char test5[] = "Still Appending to a fi";
+	// char test6[] = "le. Bye! And now I am trying to cause the disk to run out of space itshouldstophere blaaaaaaaaaa";
+	// char test7[] = "bitshouldstop";
 	char test[256];
 	
 	FS.open(file1, 'w');
@@ -51,38 +51,39 @@ int main(){
 	/*
 	 * Test writing again (???)
 	 */
-	int num4 = FS.write(0, strlen(test4), test4);
-	int num5 = FS.write(0, strlen(test5), test5);
-	int num6 = FS.write(0, strlen(test6), test6);
-	int num7 = FS.write(0, strlen(test7), test7);
+	// int num4 = FS.write(0, strlen(test4), test4);
+	// int num5 = FS.write(0, strlen(test5), test5);
+	// int num6 = FS.write(0, strlen(test6), test6);
+	// int num7 = FS.write(0, strlen(test7), test7);
 
 	FS.open(file1, 'w');
 	num3 = FS.write(0, strlen(test3), test3);
 	//cout << endl << endl;
 	//cout << "number of chars " << FS.getNumChars(0) << endl;
+	FS.close(0);
 
 	/*
 	 * Test reading
 	 */
 	FS.open(file1, 'r');
-	int num = FS.read(0, strlen(test1), test1);
+	//int num = FS.read(0, strlen(test1), test1);
 	// TODO what's going on here?
-    // int num = FS.read(0, FS.getNumChars(0), test1);
+    int num = FS.read(0, strlen(test3), test);
 	FS.close(0);
 
 	memset(test, 0, 256);
 
 	FS.open(file2, 'r');
-	int g = FS.read(0, strlen(test1), test1);
+	//int g = FS.read(0, strlen(test1), test1);
 	// TODO what's going on here?
-	// int g = FS.read(0, FS.getNumChars(0), test1);
+	int g = FS.read(0, strlen(test1), test);
 	FS.close(0);
-
+	cout << "\nclosing\n" << endl;
 	/*
 	 * Test deleting files
 	 */
 	FS.deleteFile(file2);
-	cout << "yOOOOOOSADWQUT09QWY" << endl;
+	cout << "Deleted first file" << endl;
 	FS.deleteFile(file1);
 	cout << "Deleted another file" << endl;
 //

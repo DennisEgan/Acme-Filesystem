@@ -54,7 +54,7 @@ int FileSystem::open(string filename, char mode){
 
 		// File not in FOT, put into FOT and change mode
 		else{
-			FCB* openFile = new FCB(*directory->getFile(filename));
+			FCB* openFile = new FCB(*(directory->getFile(filename)));
 			openFile->setMode(mode);
 			FOT.push_back(openFile);
 			idx = FOT.size()-1;
@@ -96,6 +96,9 @@ bool FileSystem::close(int handle){
 	directory->deleteFile(FOT[handle]->getFileName());
 	directory->addFile(updatedFile);
 
+	delete FOT[handle];
+	FOT.erase(FOT.begin() + handle);
+
 //	delete FOT[handle];
 
 //	FOT.erase(FOT.begin()+handle);
@@ -120,6 +123,8 @@ bool FileSystem::close(int handle){
 	// FOT.erase(FOT.begin() + handle);
 	//cout << "FOT[0]" << (FOT[0]) << endl;
 	//FOT[0]->print();
+
+
 }
 //procedure author: Justin Lesko
 int FileSystem::read(int handle, int numchars, char *buffer){
@@ -310,7 +315,11 @@ int FileSystem::getFreeBlock(){
 
 bool FileSystem::deleteFile(string filename){
 
-	FCB* toDelete = directory->getFile(filename);
+	FCB* toDelete = new FCB(*(directory->getFile(filename)));
+	
+	cout <<  "PRINTING TODELETE" << endl;
+	toDelete->print();
+	
 	if(toDelete != NULL){
 
 		if(freespace->getBlockPointer() != -1){
@@ -334,9 +343,9 @@ bool FileSystem::deleteFile(string filename){
 			cout << "Freespace was empty" << endl;
 			delete freespace;
 
-//			freespace = new FCB(*(toDelete));
+			freespace = new FCB(*(toDelete));
 //			freespace->operator=(*(files[searchVal]));
-			freespace->operator=(*(toDelete));
+//			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
 
@@ -346,6 +355,7 @@ bool FileSystem::deleteFile(string filename){
 			freespace->print();
 			cout << "......................." << endl;
 			freespace -> setFileName("freespace");
+			freespace -> setSize(0);
 			freespace->print();
 		}
 		return true;

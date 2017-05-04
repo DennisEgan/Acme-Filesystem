@@ -1,0 +1,182 @@
+Script started on Wed May  3 20:23:32 2017
+[?1034hbash-3.2$ ./fs
+opening hello.txt...
+tmp:
+------------------------
+fileName: hello.txt
+------------------------
+size: 0
+blockPointer: -1
+fileEnd: -1
+number of blocks: 0
+------------------------
+
+Writing to hello.txt...
+Number of chars to write = 54
+popping block 0
+freespace blocks left = 9/10
+Writing to block ===== 0
+popping block 1
+freespace blocks left = 8/10
+Writing to block ===== 1
+popping block 2
+freespace blocks left = 7/10
+Writing to block ===== 2
+	Chars Written = 54
+Writing to hello.txt...
+Number of chars to write = 25
+Writing to block ===== 2
+popping block 3
+freespace blocks left = 6/10
+Writing to block ===== 3
+popping block 4
+freespace blocks left = 5/10
+Writing to block ===== 4
+	Chars Written = 25
+closing hello.txt...
+opening GOODBYE.txt...
+tmp:
+------------------------
+fileName: GOODBYE.txt
+------------------------
+size: 0
+blockPointer: -1
+fileEnd: -1
+number of blocks: 0
+------------------------
+
+Writing to GOODBYE.txt...
+Number of chars to write = 24
+popping block 5
+freespace blocks left = 4/10
+Writing to block ===== 5
+popping block 6
+freespace blocks left = 3/10
+Writing to block ===== 6
+	Chars Written = 24
+closing GOODBYE.txt...
+opening hello.txt...
+tmp:
+------------------------
+fileName: hello.txt
+------------------------
+size: 79
+blockPointer: 0
+fileEnd: 4
+number of blocks: 5
+------------------------
+
+Writing to hello.txt...
+Number of chars to write = 3
+Writing to block ===== 4
+	Chars Written = 3
+Writing to hello.txt...
+Number of chars to write = 23
+Writing to block ===== 4
+popping block 7
+freespace blocks left = 2/10
+Writing to block ===== 7
+	Chars Written = 23
+Writing to hello.txt...
+Number of chars to write = 96
+Writing to block ===== 7
+popping block 8
+freespace blocks left = 1/10
+Writing to block ===== 8
+popping block 9
+freespace blocks left = 0/10
+Writing to block ===== 9
+No blocks available3
+	Chars Written = 47
+Writing to hello.txt...
+Number of chars to write = 13
+Error, no blocks available2
+	Chars Written = 0
+file size = 79
+Number Of Chars to Read 152
+Hello, What's up, What's happening, it's all good here, my name is Justin Lesko. 
+Still Appending to a file. Bye! And now I am trying to cause the disk 
+closing hello.txt...
+opening GOODBYE.txt...
+tmp:
+------------------------
+fileName: GOODBYE.txt
+------------------------
+size: 24
+blockPointer: 5
+fileEnd: 6
+number of blocks: 2
+------------------------
+
+file size = 152
+Number Of Chars to Read 24
+This is a test sentence.
+closing GOODBYE.txt...
+FILE WAS FOUND
+Freespace was empty
+PRINTING FREESPACE COPY
+------------------------
+fileName: GOODBYE.txt
+------------------------
+size: 24
+blockPointer: 5
+fileEnd: 6
+number of blocks: 2
+------------------------
+
+.......................
+------------------------
+fileName: freespace
+------------------------
+size: 24
+blockPointer: 5
+fileEnd: 6
+number of blocks: 2
+------------------------
+
+yOOOOOOSADWQUT09QWY
+FILE WAS FOUND
+Deleted another file
+opening HOLA.txt...
+tmp:
+------------------------
+fileName: HOLA.txt
+------------------------
+size: 0
+blockPointer: -1
+fileEnd: -1
+number of blocks: 0
+------------------------
+
+Writing to HOLA.txt...
+Number of chars to write = 54
+popping block 5
+freespace blocks left = 9/10
+Writing to block ===== 5
+popping block 6
+freespace blocks left = 8/10
+Writing to block ===== 6
+popping block 0
+freespace blocks left = 7/10
+Writing to block ===== 0
+	Chars Written = 54
+Writing to HOLA.txt...
+Number of chars to write = 25
+Writing to block ===== 0
+popping block 1
+freespace blocks left = 6/10
+Writing to block ===== 1
+popping block 2
+freespace blocks left = 5/10
+Writing to block ===== 2
+	Chars Written = 25
+file size = 0
+Number Of Chars to Read 79
+Hello, What's up, What's happening, it's all good here, my name is Justin Lesko
+closing HOLA.txt...
+opening hello.txt...
+ERROR: Unable to open file: hello.txt as it does not exist.
+bash-3.2$ exit
+exit
+
+Script done on Wed May  3 20:23:46 2017
