@@ -24,7 +24,7 @@ int main(){
 	cout << FS.create(hello) << " & "
 	     << FS.create(goodbye) << " & "
 		 << FS.create(hola) << endl;
-	
+		
 	/*
 	 * Test writing to files
 	 */
