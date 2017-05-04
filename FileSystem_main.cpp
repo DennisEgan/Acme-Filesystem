@@ -24,7 +24,7 @@ int main(){
 	cout << FS.create(hello) << " & "
 	     << FS.create(goodbye) << " & "
 		 << FS.create(hola) << endl;
-		
+
 	/*
 	 * Test writing to files
 	 */
@@ -81,7 +81,7 @@ int main(){
 
 	cout << "\nOpening and writing to " << hello << endl;
 	if(FS.open(hello, 'w') != -1) {
-		num3 = FS.write(0, strlen(test3), test3);
+		int num3 = FS.write(0, strlen(test3), test3);
 		FS.close(0);
 	}
 	else
@@ -89,7 +89,7 @@ int main(){
 	/*
 	 * Test reading
 	 */
-
+/*
 	cout << "\n\n" << eqBuf << "\n\nTest reading from files\n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and reading " << hello << endl;
@@ -115,13 +115,13 @@ int main(){
 	/*
 	 * Test deleting files
 	 */
-
+/*
 	cout <<"\n\n" << eqBuf << "\n\nTest deleting files\n\n" << eqBuf << "\n\n";
 	FS.deleteFile(goodbye);
 	cout << "yOOOOOOSADWQUT09QWY" << endl;
 	FS.deleteFile(hello);
 	cout << "Deleted another file" << endl;
-
+*/
 //
 //	/*
 //	 * Write again (???)

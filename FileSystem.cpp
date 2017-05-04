@@ -45,20 +45,26 @@ FCB* FileSystem::getFile(string name){
 int FileSystem::open(string filename, char mode){
 	cout << "opening " << filename << "..." << endl;
 	cout << filename << " is in directory: " << directory->containsFile(filename) << endl;
+
 	if((mode == 'r' || mode == 'w') && directory->containsFile(filename)){
 
 		// File already in FOT, update mode
 		int idx = searchFOT(filename);
 		if(idx != -1){
 			FOT[idx]->setMode(mode);
-			FOT[idx]->setFileName(filename);
 		}
 
 		// File not in FOT, put into FOT and change mode
 		else{
-			FCB* openFile = new FCB(*directory->getFile(filename));
+			FCB* openFile = directory->getFile(filename);
+
 			openFile->setMode(mode);
-			openFile->setFileName(filename);
+
+			vector<FCB*> files = directory->getFiles();
+			cout << "When opening...\n";
+			for(auto it = files.begin(); it != files.end(); it++)
+				cout << (*it)->getFileName() << endl;
+
 			FOT.push_back(openFile);
 			idx = FOT.size()-1;
 		}
@@ -91,16 +97,32 @@ int FileSystem::open(string filename, char mode){
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
 
-	const string name = FOT[handle]->getFileName();
+	string name = FOT[handle]->getFileName();
 
-	FCB* updatedFile = new FCB(*FOT[handle]);
-	updatedFile->setMode('c');
+	FCB* updatedFile = FOT[handle]; //new FCB(*FOT[handle]);
+
+//	updatedFile->setMode('c');
+	cout << updatedFile->getFileName() << "???\n";
+
+	vector<FCB*> files = directory->getFiles();
+	int i = 0;
+	for(auto it = files.begin(); it != files.end(); it++){
+		cout <<i << " " << (*it)->getFileName() << endl;
+		i++;
+	}
 
 	directory->deleteFile(FOT[handle]->getFileName());
 	FOT.erase(FOT.begin()+handle);
 
 	directory->addFile(updatedFile);
 	cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
+
+	files = directory->getFiles();
+	i = 0;
+	for(auto it = files.begin(); it != files.end(); it++){
+		cout <<i << " " << (*it)->getFileName() << endl;
+		i++;
+	}
 
 	return true;
 	// OLD
