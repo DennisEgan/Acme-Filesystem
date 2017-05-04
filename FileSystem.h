@@ -17,7 +17,7 @@ public:
 	bool create(string);
 	bool close(int);
 	int  open(string, char);
-	int  search(string);
+	int  searchFOT(string);
 
 	int read(int, int, char*);
 	int write(int, int, char*);
@@ -34,7 +34,7 @@ private:
 
 	DiskProcessType myDisk;
 	FCB* freespace;		// ??
-	vector<FCB*>files;	// No more files, use directory in future
+//	vector<FCB*>files;	// No more files, use directory in future
 	Directory* directory;
 	vector<FCB*>FOT;
 

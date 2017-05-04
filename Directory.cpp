@@ -8,7 +8,9 @@ Directory::Directory(){
 	name = "";
 }
 
-Directory::Directory(string name){ name = name; }
+Directory::Directory(string dirName){
+name = dirName;
+}
 
 // Delete all files in directory
 Directory::~Directory()
@@ -21,7 +23,7 @@ Directory::~Directory()
 
 
 string 		 Directory::getName(){ return name; }
-void   		 Directory::setName(string name){ name = name;}
+void   		 Directory::setName(string newName){ name = newName;}
 int    		 Directory::getSize(){ return files.size(); }
 vector<FCB*> Directory::getFiles(){ return files; }
 
@@ -32,10 +34,12 @@ bool Directory::addFile(FCB* newFile)
 }
 
 bool Directory::createFile(string fileName){
+
 	if(!containsFile(fileName))
 	{
-		FCB* newFile = new FCB();
-		newFile->setFileName(fileName);
+		FCB* newFile = new FCB(fileName);
+
+		files.push_back(newFile);
 		return true;
 	}
 	else
@@ -49,10 +53,12 @@ bool Directory::deleteFile(string name)
 	{
 		if((*it)->getFileName() == name)
 		{
-			files.erase(files.begin()+1);
+			files.erase(files.begin()+i);
 			delete *it;
 			return true;
 		}
+
+		i++;
 	}
 
 	return false;
@@ -61,12 +67,13 @@ bool Directory::deleteFile(string name)
 // Methods
 FCB* Directory::getFile(string name)
 {
-	for(auto it = files.begin(); it != files.end(); it++)
-	{
-		if((*it)->getFileName() == name)
-			return *it;
+	if(!files.empty()){
+		for (auto it = files.begin(); it != files.end(); it++) {
+			if ((*it)->getFileName() == name){
+				return *it;
+			}
+		}
 	}
-
 	return NULL;
 }
 

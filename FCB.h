@@ -10,13 +10,14 @@ class FCB{
 
 public:
 	FCB();
+	FCB(string name);
 	FCB(const FCB &);
 	~FCB();
 
 	const FCB& operator=(const FCB &);
 
 	FCB(int, int, string);
-	
+
 	string getFileName();
 	
 	int  getBlockPointer();

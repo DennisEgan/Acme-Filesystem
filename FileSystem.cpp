@@ -5,65 +5,62 @@
 using namespace std;
 
 // Constructor
+//procedure author: Justin Lesko
 FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
-	// for (int i = 0; i <DISK_SIZE; i++){
-	// 	DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
-	// 	if (i < (DISK_SIZE-1))
-	// 		myBuffer->data[0] = (unsigned char)(i+1);
-	// 	else
-	// 		myBuffer->data[0] = (unsigned char)(-1);
-	// 	myDisk.write(i, myBuffer);
-	// 	delete myBuffer;
-	// }
+	//link blocks
+	directory = new Directory();
+
+	for (int i = 0; i <DISK_SIZE; i++){
+		DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
+		if (i < (DISK_SIZE-1))
+			myBuffer->data[0] = (unsigned char)(i+1);
+		else
+			myBuffer->data[0] = (unsigned char)(-1);
+		myDisk.write(i, myBuffer);
+		delete myBuffer;
+	}
 	freespace = new FCB(0, 0, "freespace");
 	freespace->setBlockSize(DISK_SIZE);
+	freespace->setFileEnd(DISK_SIZE-1);
 }
 
 // Deconstructor
 FileSystem::~FileSystem(){
 	delete freespace;
 	delete directory;
-
-	// for (int i = 0; i < files.size(); i++){
-	// 	delete files[i];
-	// 	files.erase(files.begin()+i)
-	// 	// files[i] = NULL;
-	// }
 }
 
 // Create file with name fileName
-bool FileSystem::create(string fileName){ return directory->createFile(fileName); }
+bool FileSystem::create(string fileName){
+	return directory->createFile(fileName);
+}
 
-// OLD
-	// FCB* newfile = new FCB(0, -1, fileName);
-	// files.push_back(newfile);
-	// // cout << "newfile" << endl;
-	// // newfile->print();
-	// // cout << "freespace" << endl;
-	// // freespace->();
-	// // cout << endl;
-// }
+// Get file with name name
+FCB* FileSystem::getFile(string name){
+	return directory->getFile(name);
+}
 
-// Open file in specified mode
-int FileSystem::open(string filename, char mode)
-{
+
+//procedure author: Justin Lesko
+int FileSystem::open(string filename, char mode){
 	cout << "opening " << filename << "..." << endl;
-	
-	if(directory->containsFile(filename))
-	{
-		FCB* openFile = new FCB(*directory->getFile(filename));
-		
-		if(openFile->setMode(mode)){
-			FOT.push_back(openFile);	
-			return FOT.size()-1;
-		}
-		else{
-			cerr << "Invalid file mode: " << mode << endl
-				 << "Valid modes are 'r' and 'w'" << endl;
-			
-			return -1;
+	if(mode == 'r' || mode == 'w' && directory->containsFile(filename)){
+
+		// File already in FOT, update mode
+		int idx = searchFOT(filename);
+		if(idx != -1){
+			FOT[idx]->setMode(mode);
 		}
 
+		// File not in FOT, put into FOT and change mode
+		else{
+			FCB* openFile = new FCB(*directory->getFile(filename));
+			openFile->setMode(mode);
+			FOT.push_back(openFile);
+			idx = FOT.size()-1;
+		}
+
+		return idx;
 	}
 
 	else
@@ -87,22 +84,27 @@ int FileSystem::open(string filename, char mode)
 		// }
 }
 
-bool FileSystem::deleteFile(string fileName){ return directory->deleteFile(fileName); }
-
+//procedure author: Justin Lesko
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
-	
-	int searchVal = search(FOT[handle]->getFileName());
-	directory->deleteFile(FOT[handle]->getFileName());
-	
+
+	string name = FOT[handle]->getFileName();
+
 	FCB* updatedFile = new FCB(*FOT[handle]);
 	updatedFile->setMode('c');
 
-	directory->addFile(new FCB(*FOT[handle]));
+	directory->deleteFile(FOT[handle]->getFileName());
+	directory->addFile(updatedFile);
 
-	delete FOT[handle];
-	FOT.erase(FOT.begin()+handle);
+//	delete FOT[handle];
 
+//	FOT.erase(FOT.begin()+handle);
+//	cout << "No...\n";
+//	delete FOT[handle];
+//	cout << "Maybe...\n";
+//	cout << handle << " & " << FOT.size() << endl;
+//	FOT.erase(FOT.begin()+handle);
+//	cout << "Ah...\n";
 	// OLD
 	// delete files[searchVal];
 	// files[searchVal] = NULL;
@@ -119,7 +121,7 @@ bool FileSystem::close(int handle){
 	//cout << "FOT[0]" << (FOT[0]) << endl;
 	//FOT[0]->print();
 }
-
+//procedure author: Justin Lesko
 int FileSystem::read(int handle, int numchars, char *buffer){
 	
 	if(FOT[handle]->getMode() != 'r'){
@@ -163,6 +165,7 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 
 }
 
+//procedure author: Justin Lesko
 int FileSystem::write(int handle, int numchars, char* buffer){
 	
 	if(FOT[handle]->getMode() != 'w'){
@@ -285,36 +288,17 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 	return charsWritten;
 }
 
-// bool FileSystem::deleteFile(string name)
-// {
-// 	FCB* tmp = directory->getFile(name);
-
-// 	// File found in directory
-// 	if(tmp != NULL)
-// 	{
-// 		int blockPtr  = tmp->getBlockPointer(),
-// 		    blockSize = tmp->getBlockSize();
-
-// 		   // Update free blocks and block pointer 
-// 		   freespace->setBlockSize(freespace->getBlockSize()+blockSize);
-// 		   freespace->setBlockPointer(blockPtr);
-
-
-// 	}
-
-// 	// File not in directory
-// 	else
-// 		return false;
-// }
-
-FCB* FileSystem::getFile(string name){ return directory->getFile(name); }
-
+//procedure author: Justin Lesko
 int FileSystem::getFreeBlock(){
 	int blockIndex = 0;
 	if (freespace->getBlockSize() != 0){
 		blockIndex = freespace->getBlockPointer();//save block location
+		DiskBlockType *readBuffer = new DiskBlockType(BLOCK_SIZE);
+		myDisk.read(blockIndex, readBuffer);
+		int nextBlockToRead = readBuffer->data[0];
 		freespace->setBlockSize(freespace->getBlockSize()-1);//decrement freespace size
-		freespace->setBlockPointer(freespace->getBlockPointer()+1);//move freespace pointer forward
+		freespace->setBlockPointer(nextBlockToRead);//move freespace pointer forward
+		delete readBuffer;
 	}
 	else{
 		blockIndex = -1;
@@ -324,17 +308,111 @@ int FileSystem::getFreeBlock(){
 	return blockIndex;
 }
 
-int FileSystem::search(string fileName){
+bool FileSystem::deleteFile(string filename){
+
+	FCB* toDelete = directory->getFile(filename);
+	if(toDelete != NULL){
+
+		if(freespace->getBlockPointer() != -1){
+			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
+			myDisk.read(freespace->getFileEnd(), freeBuffer);
+
+			freeBuffer->data[0] = toDelete->getBlockPointer();
+			myDisk.write(freespace->getFileEnd(), freeBuffer);
+
+			freespace->setFileEnd(toDelete->getFileEnd());
+			freespace->setBlockSize(freespace->getBlockSize() + toDelete->getBlockSize());
+
+			delete freeBuffer;
+
+			directory->deleteFile(filename);
+			delete toDelete;
+
+//			files.erase(files.begin() + searchVal);
+		}
+		else{
+			cout << "Freespace was empty" << endl;
+			delete freespace;
+
+//			freespace = new FCB(*(toDelete));
+//			freespace->operator=(*(files[searchVal]));
+			freespace->operator=(*(toDelete));
+
+			directory->deleteFile(filename);
+
+//			files[searchVal] = NULL;
+//			files.erase(files.begin() + searchVal);
+			cout << "PRINTING FREESPACE COPY" << endl;
+			freespace->print();
+			cout << "......................." << endl;
+			freespace -> setFileName("freespace");
+			freespace->print();
+		}
+		return true;
+	}
+	else{
+		cout << "File not found. Cannot delete.\n";
+		return false;
+	}
+//	int searchVal = search(filename);
+//	if (searchVal != -1){
+//		cout << "FILE WAS FOUND" << endl;
+//		if (freespace->getBlockPointer() != -1){
+//			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
+//			myDisk.read(freespace->getFileEnd(), freeBuffer);
+//
+//			freeBuffer->data[0] = files[searchVal]->getBlockPointer();
+//			myDisk.write(freespace->getFileEnd(), freeBuffer);
+//
+//			freespace->setFileEnd(files[searchVal]->getFileEnd());
+//			freespace->setBlockSize(freespace->getBlockSize() + files[searchVal]->getBlockSize());
+//
+//			delete freeBuffer;
+//
+//			freeBuffer = NULL;
+//            delete files[searchVal];
+//
+//			files[searchVal] = NULL;
+//            files.erase(files.begin() + searchVal);
+//		}
+//		else{
+//			cout << "Freespace was empty" << endl;
+//			delete freespace;
+//			freespace = new FCB(*(files[searchVal]));
+//			//freespace->operator=(*(files[searchVal]));
+//            delete files[searchVal];
+//            files[searchVal] = NULL;
+//            files.erase(files.begin() + searchVal);
+//			cout << "PRINTING FREESPACE COPY" << endl;
+//			freespace->print();
+//			cout << "......................." << endl;
+//			freespace -> setFileName("freespace");
+//            freespace->print();
+//		}
+//        return true;
+//	}
+//	else{
+//		cout << "file not found to delete" << endl;
+//        return false;
+//	}
+}
+
+//procedure author: Justin Lesko
+int FileSystem::searchFOT(string fileName){
+
 	int index = -1;
-	for (int i = 0; i < files.size(); i++){
-		if (files[i]->getFileName() == fileName){
-			index = i;
+	if(!FOT.empty()){
+		for (int i = 0; i < FOT.size(); i++) {
+			if (FOT[i]->getFileName() == fileName) {
+				index = i;
+			}
 		}
 	}
 	return index;
 }
+//procedure author: Justin Lesko
 int FileSystem::getNumChars(int file){
-	files[file]->print();
-	cout << "file size = " << files[file]->getSize() << endl;
+//	files[file]->print();
+//	cout << "file size = " << files[file]->getSize() << endl;
 	return FOT[file]->getSize();
 }

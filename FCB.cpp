@@ -1,4 +1,4 @@
-//Author: Justin Lesko
+//File Author: Justin Lesko
 //File Control Block implementation file
 
 #include "FCB.h"
@@ -11,6 +11,15 @@ FCB::FCB(){
 	blockPointer = -1;
 	fileEnd = -1;
 	fileName = "";
+	mode = 'c';
+}
+
+FCB::FCB(string name){
+	size = 0;
+	blockSize = 0;
+	blockPointer = -1;
+	fileEnd = -1;
+	fileName = name;
 	mode = 'c';
 }
 
@@ -63,6 +72,7 @@ bool FCB::setMode(char fMode)
 	else
 		return false;
 };
+
 
 void FCB::print(){
 	cout << "------------------------" << endl;
