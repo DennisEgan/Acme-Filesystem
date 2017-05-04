@@ -1,3 +1,15 @@
+/*
+ * Directory.cpp
+ *
+ * Implementation of Directory class in Directory.h
+ *
+ * Lead author:
+ *  Dennis Egan
+ *
+ * Contributors:
+ *  Justin Lesko
+ *  Armando Califano
+ */
 #include "Directory.h"
 #include "FCB.h"
 #include <iostream>
@@ -9,7 +21,7 @@ Directory::Directory(){
 }
 
 Directory::Directory(string dirName){
-name = dirName;
+    name = dirName;
 }
 
 // Delete all files in directory
@@ -69,7 +81,7 @@ FCB* Directory::getFile(string name)
 {
 	if(!files.empty()){
 		for (auto it = files.begin(); it != files.end(); it++) {
-			if ((*it)->getFileName() == name){
+            if ((*it)->getFileName() == name){
 				return *it;
 			}
 		}

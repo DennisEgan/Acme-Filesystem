@@ -14,19 +14,20 @@ int main(){
 
 	FileSystem FS;
 
-	// Create two files
-	string file1 = "hello.txt",
-		   file2 = "goodbye.txt",
-		   file3 = "HOLA.txt";
+	string eqBuf = string(50,'=');
+	cout << eqBuf << "\n\nCreating files\n\n" << eqBuf << "\n\n";
+	// Create files
+	string hello = "hello.txt",
+		   goodbye = "goodbye.txt",
+		   hola = "HOLA.txt";
 
-	cout << FS.create(file1) << " & "
-	     << FS.create(file2) << " & "
-		 << FS.create(file3) << endl;
+	cout << FS.create(hello) << " & "
+	     << FS.create(goodbye) << " & "
+		 << FS.create(hola) << endl;
 	
 	/*
 	 * Test writing to files
 	 */
-	
 	char test1[] = "Hello";
 	char test2[] = ", my name is Justin Lesko";
 	char test3[] = "This is a test sentence.";
@@ -35,44 +36,77 @@ int main(){
 	char test6[] = "le. Bye! And now I am trying to cause the disk to run out of space itshouldstophere blaaaaaaaaaa";
 	char test7[] = "bitshouldstop";
 	char test[256];
-	
-	FS.open(file1, 'w');
-	int num1 = FS.write(0, strlen(test1), test1);
-	FS.close(0);
 
-	FS.open(file2, 'w');
-	int num2 = FS.write(0, strlen(test2), test2);
-	FS.close(0);
+	cout << "\n\n" << eqBuf << "\n\nTest writing files\n\n" << eqBuf << "\n\n";
 
-	FS.open(file3, 'w');
-	int num3 = FS.write(0, strlen(test3), test3);
-	FS.close(0);
+	cout << "\nOpening and writing to " << hello << endl;
+	if(FS.open(hello, 'w') != -1) {
+		int num1 = FS.write(0, strlen(test1), test1);
+		FS.close(0);
+	}
+	else
+		cerr << "Error when opening and writing to " << hello << endl;
 
+	cout << "\nOpening and writing to " << goodbye << endl;
+	if(FS.open(goodbye, 'w') != -1) {
+		int num2 = FS.write(0, strlen(test2), test2);
+		FS.close(0);
+	}
+	else
+		cerr << "Error when opening and writing to " << goodbye << endl;
+
+	cout << "\nOpening and writing to " << hola << endl;
+	if(FS.open(hola, 'w') != -1) {
+		int num3 = FS.write(0, strlen(test3), test3);
+		FS.close(0);
+	}
+	else
+		cerr << "Error when opening and writing to "<< hola << endl;
 	/*
 	 * Test writing again (???)
 	 */
-	int num4 = FS.write(0, strlen(test4), test4);
-	int num5 = FS.write(0, strlen(test5), test5);
-	int num6 = FS.write(0, strlen(test6), test6);
-	int num7 = FS.write(0, strlen(test7), test7);
 
-	FS.open(file1, 'w');
-	num3 = FS.write(0, strlen(test3), test3);
-	//cout << endl << endl;
-	//cout << "number of chars " << FS.getNumChars(0) << endl;
+	cout << "\n\n" << eqBuf << "\n\nTest writing to files (again) \n\n" << eqBuf << "\n\n";
 
+	cout << "\nOpening and writing to " << hola << endl;
+	if(FS.open(hola, 'w') != -1) {
+		int num4 = FS.write(0, strlen(test4), test4);
+		int num5 = FS.write(0, strlen(test5), test5);
+		int num6 = FS.write(0, strlen(test6), test6);
+		int num7 = FS.write(0, strlen(test7), test7);
+		FS.close(0);
+	}
+	else
+		cerr << "Error opening and writing to " << hola << endl;
+
+	cout << "\nOpening and writing to " << hello << endl;
+	if(FS.open(hello, 'w') != -1) {
+		num3 = FS.write(0, strlen(test3), test3);
+		FS.close(0);
+	}
+	else
+		cerr << "Error when opening and writing to " << hello << endl;
 	/*
 	 * Test reading
 	 */
-	FS.open(file1, 'r');
-	int num = FS.read(0, strlen(test1), test1);
+
+	cout << "\n\n" << eqBuf << "\n\nTest reading from files\n\n" << eqBuf << "\n\n";
+
+	cout << "\nOpening and reading " << hello << endl;
+	if(FS.open(hello, 'r') != -1){
+		int num = FS.read(0, strlen(test1), test1);
+		FS.close(0);
+	}
+	else
+		cerr << "Error opening " << hello << endl;
+
 	// TODO what's going on here?
-    // int num = FS.read(0, FS.getNumChars(0), test1);
-	FS.close(0);
+//     int num = FS.read(0, FS.getNumChars(0), test);
 
 	memset(test, 0, 256);
 
-	FS.open(file2, 'r');
+	cout << "\nOpening and reading " << goodbye << endl;
+	FS.open(goodbye, 'r');
 	int g = FS.read(0, strlen(test1), test1);
 	// TODO what's going on here?
 	// int g = FS.read(0, FS.getNumChars(0), test1);
@@ -81,25 +115,28 @@ int main(){
 	/*
 	 * Test deleting files
 	 */
-	FS.deleteFile(file2);
+
+	cout <<"\n\n" << eqBuf << "\n\nTest deleting files\n\n" << eqBuf << "\n\n";
+	FS.deleteFile(goodbye);
 	cout << "yOOOOOOSADWQUT09QWY" << endl;
-	FS.deleteFile(file1);
+	FS.deleteFile(hello);
 	cout << "Deleted another file" << endl;
+
 //
 //	/*
 //	 * Write again (???)
 //	 */
 //	memset(test1, 0, 256);
 //
-//	FS.open(file3, 'w');
+//	FS.open(hola, 'w');
 //	num1 = FS.write(0, strlen(test1), test1);
 //	num2 = FS.write(0, strlen(test2), test2);
 //
-//	FS.open(file3, 'r');
+//	FS.open(hola, 'r');
 //	num = FS.read(0, FS.getNumChars(0), test1);
 //	FS.close(0);
 //
-//	FS.open(file1, 'w');
+//	FS.open(hello, 'w');
 //
 //
 //	 cout << "chars written = " << num << endl;
