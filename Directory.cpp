@@ -60,26 +60,14 @@ bool Directory::createFile(string fileName){
 
 bool Directory::deleteFile(string name)
 {
-	int i = 0;
-	// for(auto it = files.begin(); it != files.end(); it++)
-	// {
-	// 	if((*it)->getFileName() == name)
-	// 	{
-	// 		files.erase(files.begin()+i);
-	// 		delete *it;
-	// 		return true;
-	// 	}
-
-	// 	i++;
-	// }
-
-	//FCB* tmp = NULL;
 	for (int i = 0; i < files.size(); i++){
 		if (files[i]->getFileName() == name){
 			delete files[i];
 			files.erase(files.begin() + i);
 			return true;
 		}
+
+		i++;
 	}
 
 	return false;
@@ -88,25 +76,25 @@ bool Directory::deleteFile(string name)
 // Methods
 FCB* Directory::getFile(string name)
 {
-
-	// FCB *tmp = NULL;
-	// if(!files.empty()){
-	// 	for (auto it = files.begin(); it != files.end(); it++) {
- //            if ((*it)->getFileName() == name){
-	// 			tmp = new FCB(**it);
-	// 			return tmp;
-	// 		}
-	// 	}
-	// }
-
-	FCB* tmp = NULL;
-	for (int i = 0; i < files.size(); i++){
-		if (files[i]->getFileName() == name){
-			tmp = new FCB(*files[i]);
-			return tmp;
+	if(!files.empty()){
+		for(int i = 0; i < files.size(); i++){
+			if(files[i]->getFileName() == name){
+				FCB* tmp = new FCB(*files[i]);
+				return tmp;
+			}
 		}
 	}
 	return NULL;
+}
+
+int Directory::getFileSize(string name){
+
+	for(int i = 0; i < files.size(); i++){
+		if(files[i]->getFileName() == name)
+			return files[i]->getSize();
+	}
+
+	return -1;
 }
 
 bool Directory::containsFile(string name)

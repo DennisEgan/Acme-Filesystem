@@ -45,14 +45,12 @@ FCB* FileSystem::getFile(string name){
 int FileSystem::open(string filename, char mode){
 	cout << "opening " << filename << "..." << endl;
 	cout << filename << " is in directory: " << directory->containsFile(filename) << endl;
-	
 	if((mode == 'r' || mode == 'w') && directory->containsFile(filename)){
 
 		// File already in FOT, update mode
 		int idx = searchFOT(filename);
 		if(idx != -1){
 			FOT[idx]->setMode(mode);
-			FOT[idx]->setFileName(filename);
 		}
 
 		// File not in FOT, put into FOT and change mode
@@ -102,7 +100,6 @@ bool FileSystem::close(int handle){
 	directory->deleteFile(FOT[handle]->getFileName());
 	FOT.erase(FOT.begin()+handle);
 
-
 	directory->addFile(updatedFile);
 	cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
 
@@ -122,8 +119,6 @@ bool FileSystem::close(int handle){
 	// FOT.erase(FOT.begin() + handle);
 	//cout << "FOT[0]" << (FOT[0]) << endl;
 	//FOT[0]->print();
-
-
 }
 //procedure author: Justin Lesko
 int FileSystem::read(int handle, int numchars, char *buffer){
@@ -368,7 +363,7 @@ bool FileSystem::deleteFile(string filename){
 
 			freespace = new FCB(*(toDelete));
 //			freespace->operator=(*(files[searchVal]));
-//			freespace->operator=(*(toDelete));
+			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
 

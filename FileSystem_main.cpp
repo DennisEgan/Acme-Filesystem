@@ -14,7 +14,6 @@ int main(){
 
 	FileSystem FS;
 
-
 	string eqBuf = string(50,'=');
 	cout << eqBuf << "\n\nCreating files\n\n" << eqBuf << "\n\n";
 	// Create files
@@ -41,7 +40,7 @@ int main(){
 	cout << "\n\n" << eqBuf << "\n\nTest writing files\n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and writing to " << hello << endl;
-	
+
 	if(FS.open(hello, 'w') != -1) {
 		int num1 = FS.write(0, strlen(test1), test1);
 		FS.close(0);
@@ -68,7 +67,6 @@ int main(){
 	 * Test writing again (???)
 	 */
 
-
 	cout << "\n\n" << eqBuf << "\n\nTest writing to files (again) \n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and writing to " << hola << endl;
@@ -92,10 +90,6 @@ int main(){
 	/*
 	 * Test reading
 	 */
-	//int g = FS.read(0, strlen(test1), test1);
-
-	//when reading back from file the buffer passed should be test
-	//it should a different buffer from what you used to write the file
 
 	cout << "\n\n" << eqBuf << "\n\nTest reading from files\n\n" << eqBuf << "\n\n";
 
