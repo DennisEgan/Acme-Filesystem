@@ -15,7 +15,7 @@
 #include <vector>
 using namespace std;
 
-#define LOGGING true
+#define LOGGING false
 
 /*
  * Constructor for class
@@ -148,14 +148,9 @@ bool FileSystem::close(int handle){
     }
 
 	const string name = FOT[handle]->getFileName();
-	cout << "Name wayyyyyy up here " << name << endl;
-	cout << "Before copying writing:\n";
-	FOT[handle]->print();
 
 	// Copy the updated file to be added back to the directory
 	FCB* updatedFile = new FCB(*FOT[handle]);
-	cout << "After copying:\n";
-	updatedFile->print();
 
 	updatedFile->setMode('c');
 
@@ -164,17 +159,10 @@ bool FileSystem::close(int handle){
 	delete FOT[handle];
 	FOT.erase(FOT.begin()+handle);
 
-	cout << "After deleting:\n";
-	updatedFile->print();
-
 	// Add update version of file to directory
 	directory->addFile(updatedFile);
 
 	FCB* afterWriting = directory->getFile(name);
-
-	cout << "After writing:\n";
-	afterWriting->print();
-
 
     if(LOGGING) {
         cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
@@ -217,9 +205,11 @@ int FileSystem::read(string fileName){
  */
 int FileSystem::read(int handle, int numchars, char *buffer){
 
-	cout << "Block size of " << FOT[handle]->getFileName() << endl
-	     << FOT[handle]->getBlockSize() << endl
-	     << "File size of "  << FOT[handle]->getSize();
+	if(LOGGING) {
+		cout << "Block size of " << FOT[handle]->getFileName() << endl
+			 << FOT[handle]->getBlockSize() << endl
+			 << "File size of " << FOT[handle]->getSize();
+	}
 
 	if(FOT[handle]->getMode() != 'r'){
         if(LOGGING) {
@@ -264,7 +254,6 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 		delete readBuffer;
 		readBuffer = NULL;	// ??
 	}
-	cout << endl;
 
 	return numchars;
 
@@ -486,9 +475,6 @@ bool FileSystem::deleteFile(string filename){
 
 	// Get file
 	FCB* toDelete = new FCB(*directory->getFile(filename));
-
-	cout << "Freespace before deleting:\n";
-	freespace->print();
 
 	// File was found
 	if(toDelete != NULL){
