@@ -137,7 +137,10 @@ bool UI::type(string fileName) {
  * :param fileName: name of file to delete
  */
 bool UI::deleteFile(string fileName) {
-	if(!FS.deleteFile(fileName)) {
+	if(!FS.containsFile(fileName)){
+		return false;
+	}
+	else if(!FS.deleteFile(fileName)) {
 		cerr << "Error when deleting " << fileName << endl;
 		return false;
 	} else {
