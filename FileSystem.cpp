@@ -148,18 +148,33 @@ bool FileSystem::close(int handle){
     }
 
 	const string name = FOT[handle]->getFileName();
+	cout << "Name wayyyyyy up here " << name << endl;
+	cout << "Before copying writing:\n";
+	FOT[handle]->print();
 
-    // Copy the updated file to be added back to the directory
+	// Copy the updated file to be added back to the directory
 	FCB* updatedFile = new FCB(*FOT[handle]);
+	cout << "After copying:\n";
+	updatedFile->print();
+
 	updatedFile->setMode('c');
 
-    // Delete the current version in the directory and it's entry in FOT
-	directory->deleteFile(FOT[handle]->getFileName());
+	// Delete the current version in the directory and it's entry in FOT
+	directory->deleteFile(name);
 	delete FOT[handle];
 	FOT.erase(FOT.begin()+handle);
 
-    // Add update version of file to directory
+	cout << "After deleting:\n";
+	updatedFile->print();
+
+	// Add update version of file to directory
 	directory->addFile(updatedFile);
+
+	FCB* afterWriting = directory->getFile(name);
+
+	cout << "After writing:\n";
+	afterWriting->print();
+
 
     if(LOGGING) {
         cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
@@ -470,12 +485,15 @@ int FileSystem::getFreeBlock(){
 bool FileSystem::deleteFile(string filename){
 
 	// Get file
-	FCB* toDelete = directory->getFile(filename);
+	FCB* toDelete = new FCB(*directory->getFile(filename));
+
+	cout << "Freespace before deleting:\n";
+	freespace->print();
 
 	// File was found
 	if(toDelete != NULL){
 
-		if(freespace->getBlockPointer() != -1){
+		if(freespace->getBlockSize() != -1){
 			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
 			myDisk.read(freespace->getFileEnd(), freeBuffer);
 

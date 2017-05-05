@@ -14,7 +14,7 @@
 #include "Directory.h"
 
 #define DISK_SIZE 10
-#define BLOCK_SIZE 20
+#define BLOCK_SIZE 2
 
 #ifndef FILE_SYSTEM_H
 #define FILE_SYSTEM_H

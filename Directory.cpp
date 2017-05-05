@@ -55,6 +55,9 @@ bool Directory::addFile(FCB* newFile)
 {
 	if(!containsFile(newFile->getFileName()))
 		files.push_back(newFile);
+	else{
+		cerr << "You fucked up this time bud.\n";
+	}
 }
 
 /*
@@ -93,8 +96,6 @@ bool Directory::deleteFile(string name)
 			files.erase(files.begin() + i);
 			return true;
 		}
-
-		i++;
 	}
 
 	return false;
