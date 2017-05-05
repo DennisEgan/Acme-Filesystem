@@ -479,7 +479,7 @@ bool FileSystem::deleteFile(string filename){
 	// File was found
 	if(toDelete != NULL){
 
-		if(freespace->getBlockSize() != -1){
+		if(freespace->getBlockPointer() != -1){
 			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
 			myDisk.read(freespace->getFileEnd(), freeBuffer);
 
@@ -503,16 +503,16 @@ bool FileSystem::deleteFile(string filename){
 			delete freespace;
 
 			freespace = new FCB(*(toDelete));
-//			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
+
+			freespace -> setFileName("freespace");
+			freespace -> setSize(0);
 
             if(LOGGING){
                 cout << "PRINTING FREESPACE COPY" << endl;
                 freespace->print();
                 cout << "......................." << endl;
-                freespace -> setFileName("freespace");
-                freespace -> setSize(0);
                 freespace->print();
             }
 		}
