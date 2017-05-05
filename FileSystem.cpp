@@ -503,7 +503,6 @@ bool FileSystem::deleteFile(string filename){
 			delete freespace;
 
 			freespace = new FCB(*(toDelete));
-//			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
 
