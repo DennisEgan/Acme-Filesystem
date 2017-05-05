@@ -1,3 +1,14 @@
+/*
+ * FileSystem.h
+ *
+ * Header file for ATOS FileSystem class
+ *
+ * Lead author:
+ *  Justin Lesko
+ *
+ * Contributors:
+ *  Dennis Egan
+ */
 #include "FCB.h"
 #include "diskprocess.h"
 #include "Directory.h"
@@ -15,11 +26,17 @@ public:
 	~FileSystem();
 
 	bool create(string);
-	bool close(int);
 	int  open(string, char);
 	int  searchFOT(string);
 
+	// Close, read, write functions and wrappers
+	bool close(string);
+	bool close(int);
+
+	int read(string, char*);
 	int read(int, int, char*);
+
+	int write(string, char*);
 	int write(int, int, char*);
 	
 	int getNumChars(int);
@@ -30,11 +47,11 @@ public:
 
 	Directory* getDirectory();
 	bool	   deleteDirectory();
+
 private:
 
 	DiskProcessType myDisk;
-	FCB* freespace;		// ??
-//	vector<FCB*>files;	// No more files, use directory in future
+	FCB* freespace;
 	Directory* directory;
 	vector<FCB*>FOT;
 

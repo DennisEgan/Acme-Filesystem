@@ -1,3 +1,14 @@
+/*
+ * Directory.h
+ *
+ * Header file for ATOS FS File Control Block class
+ *
+ * Lead author:
+ *  Justin Lesko
+ *
+ * Contributors:
+ * 	Dennis Egan
+ */
 #include <string>
 #include <iostream>
 using namespace std;

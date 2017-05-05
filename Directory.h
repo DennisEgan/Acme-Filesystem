@@ -8,7 +8,6 @@
  *
  * Contributors:
  *  Justin Lesko
- *  Armando Califano
  */
 #ifndef DIRECTORY_H
 #define DIRECTORY_H

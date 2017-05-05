@@ -87,7 +87,7 @@ int main()
         // Read in user input as a string to search for 'run'
         getline(cin, input);
 	
-	// Check to see if there was no input
+	    // Check to see if there was no input
         while (input.empty()) {
 	    printf("$$ ");
             getline(cin, input);
@@ -103,9 +103,11 @@ int main()
         // Exit if user input is 'exit'
         if (strcmp(argv[0], "EXIT") == 0)
             exit(0);
+
         // If user input valid, will execute system calls
         else if (strcmp(argv[0], "CREATE") == 0) {
-	// Deletes 'run' from the array and shifts all elements to the left
+
+        // Deletes 'run' from the array and shifts all elements to the left
 //	    memmove(argv-1, argv, (sizeof(char)*(62)));
             createFile(argv);
         }
@@ -116,7 +118,7 @@ int main()
     }
 
     // Release memory
-    free(in);
-
-    return 0;
+//    free(in);
+//
+//    return 0;
 }
