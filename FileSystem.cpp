@@ -15,7 +15,7 @@
 #include <vector>
 using namespace std;
 
-#define LOGGING true
+#define LOGGING false
 
 /*
  * Constructor for class
@@ -62,6 +62,14 @@ bool FileSystem::create(string fileName){
  */
 FCB* FileSystem::getFile(string name){
 	return directory->getFile(name);
+}
+
+/*
+ * Check if directory contains file of name name
+ * :param name: name of file to check for in directory
+ */
+bool FileSystem::containsFile(string name){
+	return directory->containsFile(name);
 }
 
 /*
@@ -147,6 +155,7 @@ bool FileSystem::close(int handle){
 
     // Delete the current version in the directory and it's entry in FOT
 	directory->deleteFile(FOT[handle]->getFileName());
+	delete FOT[handle];
 	FOT.erase(FOT.begin()+handle);
 
     // Add update version of file to directory
@@ -489,7 +498,7 @@ bool FileSystem::deleteFile(string filename){
 			delete freespace;
 
 			freespace = new FCB(*(toDelete));
-			freespace->operator=(*(toDelete));
+//			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
 
@@ -555,11 +564,11 @@ void FileSystem::printDir(){
     for(int i = 0; i < files.size(); i++){
         string name    = files[i]->getFileName();
         int    nameLen = strlen(name.c_str());
-        int    size    = files[i]->getSize();
+        int    size    = files[i]->getBlockSize();
 
         int numSpaces = 1;
         if(nameLen < maxLen)
-            numSpaces = maxLen-nameLen;
+            numSpaces = maxLen-nameLen-1;
 
         cout << "\t" << name << string(numSpaces,' ') << size << "\n";
 
