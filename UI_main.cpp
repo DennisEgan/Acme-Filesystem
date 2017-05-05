@@ -40,10 +40,6 @@ int main(){
 		cin.clear();
 		args = splitbystring(input, " ");
 
-//		for (int i = 0; i < args.size(); i++){
-//			cout << i << ": " << args[i] << endl;
-//		}
-
 		// Commands that take two arguments
 		if (args[0] == "EXIT"){
 			keepGoing = false;
