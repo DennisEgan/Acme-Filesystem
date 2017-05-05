@@ -100,7 +100,6 @@ bool Directory::deleteFile(string name)
 
 	return false;
 }
-
 /*
  * Get file of name name from directory
  * :param name: name of file to get
