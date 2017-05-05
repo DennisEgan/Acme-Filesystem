@@ -5,11 +5,11 @@
 #
 # A List of all the source files that should be compiled together
 #
-SOURCES = diskprocess.cpp FCB.cpp Directory.cpp FileSystem.cpp FileSystem_main.cpp
+SOURCES = diskprocess.cpp FCB.cpp Directory.cpp FileSystem.cpp UI_main.cpp
 #
 # A list of the objects that result from the compilation process
 #
-OBJECTS = diskprocess.o FCB.o Directory.o FileSystem.o FileSystem_main.cpp
+OBJECTS = diskprocess.o FCB.o Directory.o FileSystem.o UI_main.cpp
 #
 # A list of include files on which theh compilation depends
 #
