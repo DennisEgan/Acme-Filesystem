@@ -70,8 +70,6 @@ int main(){
 	    		int charsRead = acmeFS.read(args[1]);
 	    		closed = acmeFS.close(args[1]);
 
-	    		acmeFS.printDir();
-
 	    		return 0;
 
 	    		}
