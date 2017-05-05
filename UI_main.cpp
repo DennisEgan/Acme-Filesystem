@@ -14,6 +14,7 @@ int main(){
 	string input;
 	vector<string> args;
 
+	FileSystem acmeFS;
 
 	while (cont){
 		cout << "$$";
@@ -22,25 +23,28 @@ int main(){
 		for (int i = 0; i < args.size(); i++){
 			cout << i << ": " << args[i] << endl;
 		}
+
 		if (args[0] == "EXIT"){
 			cont = false;
-		}
-		else if (args[0] == "CREATE"){
+		}else if (args[0] == "DIR") {
+			acmeFS.printDir();
+
+		} else if(args[0] == "EDIT") {
 
 		}
-		else if (args[0] == "TYPE"){
+		else if(args.size() == 2) {
+			if (args[0] == "CREATE") {
+				acmeFS.create(args[1]);
+
+			} else if (args[0] == "TYPE") {
+				acmeFS.read(args[1]);
+
+			}
 
 		}
-		else if (args[0] == "DIR"){
-			cout << "\tATOS-FS Directory Listing" << endl;
-			cout << "\tFILENAME\t\t\tSIZE(blks)" << endl;
 
-
-
-			cout << "\tFREE SPACE blks" << endl;
-		}
 		else{
-			cout << "invalid" << endl;
+			cout << "Invalid\n";
 		}
 	}
 

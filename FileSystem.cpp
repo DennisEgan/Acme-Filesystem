@@ -166,12 +166,15 @@ bool FileSystem::close(int handle){
  * :param fileName: name of file to open
  * :param buffer: buffer to read into
  */
-int FileSystem::read(string fileName, char *buffer){
+int FileSystem::read(string fileName){
     int handle = searchFOT(fileName);
 
-    if(handle != -1)
-        return read(searchFOT(fileName), strlen(buffer), buffer);
+    if(handle != -1) {
+        int numChars = getNumChars(handle);
+        char buffer[numChars];
+        return read(searchFOT(fileName), numChars, buffer);
 
+    }
     else{
         if(LOGGING) {
             cerr << fileName << " is not currently open!\n";
@@ -476,13 +479,7 @@ bool FileSystem::deleteFile(string filename){
 			freeBuffer = NULL;
 
 			directory->deleteFile(filename);
-<<<<<<< HEAD
-			freespace->print();
-//			delete toDelete;
 
-//			files.erase(files.begin() + searchVal);
-=======
->>>>>>> 2eaad7f9015eca08034f5fbadadd35ccac36d08b
 		}
 		else{
             if(LOGGING){
@@ -541,4 +538,31 @@ int FileSystem::searchFOT(string fileName){
  */
 int FileSystem::getNumChars(int file){
 	return FOT[file]->getSize();
+}
+
+void FileSystem::printDir(){
+    vector<FCB*> files = directory->getFiles();
+
+    string spacing = string(8*3, ' '),   // 3 tabs of 8 spaces each
+           prompt  = "FILENAMESIZE(blks)";
+
+    int lenStr = strlen(spacing.c_str()),
+        maxLen = strlen(prompt.c_str())+lenStr;
+
+    cout << "\tATOS-FS Directory Listing" << endl;
+    cout << "\tFILENAME\t\t\tSIZE(blks)" << endl;
+
+    for(int i = 0; i < files.size(); i++){
+        string name    = files[i]->getFileName();
+        int    nameLen = strlen(name.c_str());
+        int    size    = files[i]->getSize();
+
+        int numSpaces = 1;
+        if(nameLen < maxLen)
+            numSpaces = maxLen-nameLen;
+
+        cout << "\t" << name << string(numSpaces,' ') << size << "\n";
+
+    }
+    cout << "\tFREE SPACE blks: " << freespace->getBlockSize() << endl;
 }
