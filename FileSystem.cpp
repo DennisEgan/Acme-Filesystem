@@ -173,7 +173,7 @@ int FileSystem::read(string fileName){
         int numChars = getNumChars(handle);
         char buffer[numChars];
         return read(searchFOT(fileName), numChars, buffer);
-	
+
     }
     else{
         if(LOGGING) {
