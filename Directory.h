@@ -36,6 +36,7 @@ class Directory
 		int 		 getSize();
 		vector<FCB*> getFiles();
 		FCB*		 getFile(string fileName);
+		int 		 getFileSize(string name);
 		bool		 addFile(FCB* newFile);
 		bool		 createFile(string fileName);
 		bool 		 deleteFile(string fileName);

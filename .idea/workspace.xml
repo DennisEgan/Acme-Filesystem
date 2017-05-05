@@ -10,9 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55155b92-4b86-4548-9ac4-bec70b5e62be" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/results.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fs" afterPath="$PROJECT_DIR$/fs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Directory.cpp" afterPath="$PROJECT_DIR$/Directory.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Directory.h" afterPath="$PROJECT_DIR$/Directory.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FCB.cpp" afterPath="$PROJECT_DIR$/FCB.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileSystem.cpp" afterPath="$PROJECT_DIR$/FileSystem.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FileSystem_main.cpp" afterPath="$PROJECT_DIR$/FileSystem_main.cpp" />
     </list>
@@ -29,15 +32,21 @@
     <favorites_list name="mobile_filesystem" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4257576">
+    <splitter split-orientation="horizontal" split-proportion="0.53939396">
       <split-first>
         <leaf>
           <file leaf-file-name="FileSystem.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/FileSystem.cpp">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="-9">
-                  <caret line="421" column="7" lean-forward="false" selection-start-line="421" selection-start-column="7" selection-end-line="421" selection-end-column="7" />
-                  <folding />
+                  <caret line="423" column="7" lean-forward="false" selection-start-line="423" selection-start-column="7" selection-end-line="423" selection-end-column="7" />
+                  <folding>
+                    <marker date="1493942198881" expanded="true" signature="1029:1169" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="9659:11083" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="9808:11081" ph="/.../" />
+                    <marker date="1493942198881" expanded="true" signature="11160:11327" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="11398:11517" ph="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -52,11 +61,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FileSystem_main.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="FileSystem_main.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/FileSystem_main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-191">
-                  <caret line="63" column="52" lean-forward="false" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+                <state relative-caret-position="171">
+                  <caret line="43" column="30" lean-forward="true" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Directory.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Directory.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="92">
+                  <caret line="38" column="46" lean-forward="false" selection-start-line="38" selection-start-column="46" selection-end-line="38" selection-end-column="46" />
                   <folding />
                 </state>
               </provider>
@@ -77,7 +96,10 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
                   <caret line="21" column="19" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-                  <folding />
+                  <folding>
+                    <marker date="1493942015095" expanded="true" signature="596:812" ph="{...}" />
+                    <marker date="1493942015095" expanded="true" signature="1370:1482" ph="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -86,21 +108,37 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="Directory.cpp" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Directory.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Directory.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-9">
-                  <caret line="87" column="5" lean-forward="false" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
+                <state relative-caret-position="256">
+                  <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FileSystem.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="FileSystem.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/FileSystem.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="66">
-                  <caret line="178" column="4" lean-forward="true" selection-start-line="178" selection-start-column="4" selection-end-line="178" selection-end-column="4" />
+                <state relative-caret-position="-102">
+                  <caret line="103" column="10" lean-forward="false" selection-start-line="103" selection-start-column="10" selection-end-line="103" selection-end-column="10" />
+                  <folding>
+                    <marker date="1493942198881" expanded="true" signature="1029:1169" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="9659:11083" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="9808:11081" ph="/.../" />
+                    <marker date="1493942198881" expanded="true" signature="11160:11327" ph="{...}" />
+                    <marker date="1493942198881" expanded="true" signature="11398:11517" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="FCB.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/FCB.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-84">
+                  <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
                   <folding />
                 </state>
               </provider>
@@ -122,7 +160,6 @@
       <find>cout</find>
       <find>deleteFile</find>
       <find>search</find>
-      <find>open</find>
       <find>::open</find>
       <find>searchFOT</find>
       <find>File not found</find>
@@ -134,14 +171,16 @@
       <find>operator</find>
       <find>Hello</find>
       <find>close</find>
-      <find>delete</find>
       <find>file3</find>
       <find>read</find>
+      <find>delete</find>
+      <find>open</find>
+      <find>hello</find>
     </findStrings>
     <replaceStrings>
       <replace>file2</replace>
-      <replace>hola</replace>
       <replace>FS</replace>
+      <replace>hola</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -155,10 +194,10 @@
         <option value="$PROJECT_DIR$/directory_test.cpp" />
         <option value="$PROJECT_DIR$/FCB.cpp" />
         <option value="$PROJECT_DIR$/FileSystem.h" />
-        <option value="$PROJECT_DIR$/Directory.h" />
-        <option value="$PROJECT_DIR$/Directory.cpp" />
         <option value="$PROJECT_DIR$/FileSystem.cpp" />
+        <option value="$PROJECT_DIR$/Directory.cpp" />
         <option value="$PROJECT_DIR$/FileSystem_main.cpp" />
+        <option value="$PROJECT_DIR$/Directory.h" />
       </list>
     </option>
   </component>
@@ -409,12 +448,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1493911008746</updated>
-      <workItem from="1493911012293" duration="15651000" />
+      <workItem from="1493911012293" duration="20180000" />
     </task>
+    <task id="LOCAL-00001" summary="--latest and greatest">
+      <created>1493938295789</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1493938295789</updated>
+    </task>
+    <task id="LOCAL-00002" summary="--CBP">
+      <created>1493942006819</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1493942006819</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15651000" />
+    <option name="totallyTimeSpent" value="20180000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -427,17 +481,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1366" height="772" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25454545" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25454545" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30650154" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36687306" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4643963" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -477,7 +530,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="--set up FS-&gt;Directory-&gt;Files architecture" />
-    <option name="LAST_COMMIT_MESSAGE" value="--set up FS-&gt;Directory-&gt;Files architecture" />
+    <MESSAGE value="--latest and greatest" />
+    <MESSAGE value="--CBP" />
+    <option name="LAST_COMMIT_MESSAGE" value="--CBP" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -512,15 +567,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="21" column="19" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FCB.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding />
+          <folding>
+            <marker date="1493942015095" expanded="true" signature="596:812" ph="{...}" />
+            <marker date="1493942015095" expanded="true" signature="1370:1482" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -532,34 +582,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Directory.h">
+    <entry file="file://$PROJECT_DIR$/FCB.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Directory.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
-          <caret line="87" column="5" lean-forward="false" selection-start-line="87" selection-start-column="5" selection-end-line="87" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FileSystem_main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-191">
-          <caret line="63" column="52" lean-forward="false" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
+        <state relative-caret-position="-84">
+          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FileSystem.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="178" column="4" lean-forward="true" selection-start-line="178" selection-start-column="4" selection-end-line="178" selection-end-column="4" />
+        <state relative-caret-position="-9">
+          <caret line="423" column="7" lean-forward="false" selection-start-line="423" selection-start-column="7" selection-end-line="423" selection-end-column="7" />
+          <folding>
+            <marker date="1493942198881" expanded="true" signature="1029:1169" ph="{...}" />
+            <marker date="1493942198881" expanded="true" signature="9659:11083" ph="{...}" />
+            <marker date="1493942198881" expanded="true" signature="9808:11081" ph="/.../" />
+            <marker date="1493942198881" expanded="true" signature="11160:11327" ph="{...}" />
+            <marker date="1493942198881" expanded="true" signature="11398:11517" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Directory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FileSystem_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="43" column="30" lean-forward="true" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Directory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="38" column="46" lean-forward="false" selection-start-line="38" selection-start-column="46" selection-end-line="38" selection-end-column="46" />
           <folding />
         </state>
       </provider>

@@ -24,12 +24,12 @@ int main(){
 	cout << FS.create(hello) << " & "
 	     << FS.create(goodbye) << " & "
 		 << FS.create(hola) << endl;
-
+		
 	/*
 	 * Test writing to files
 	 */
 	char test1[] = "Hello";
-	char test2[] = ", my name is Justin Lesko";
+	char test2[] = ", We are group 1. ";
 	char test3[] = "This is a test sentence.";
 	char test4[] = ". \n";
 	char test5[] = "Still Appending to a fi";
@@ -40,6 +40,7 @@ int main(){
 	cout << "\n\n" << eqBuf << "\n\nTest writing files\n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and writing to " << hello << endl;
+
 	if(FS.open(hello, 'w') != -1) {
 		int num1 = FS.write(0, strlen(test1), test1);
 		FS.close(0);
@@ -89,7 +90,7 @@ int main(){
 	/*
 	 * Test reading
 	 */
-/*
+
 	cout << "\n\n" << eqBuf << "\n\nTest reading from files\n\n" << eqBuf << "\n\n";
 
 	cout << "\nOpening and reading " << hello << endl;
@@ -109,19 +110,19 @@ int main(){
 	FS.open(goodbye, 'r');
 	int g = FS.read(0, strlen(test1), test1);
 	// TODO what's going on here?
-	// int g = FS.read(0, FS.getNumChars(0), test1);
+	g = FS.read(0, strlen(test1), test);
 	FS.close(0);
-
+	cout << "\nclosing\n" << endl;
 	/*
 	 * Test deleting files
 	 */
-/*
+
 	cout <<"\n\n" << eqBuf << "\n\nTest deleting files\n\n" << eqBuf << "\n\n";
 	FS.deleteFile(goodbye);
-	cout << "yOOOOOOSADWQUT09QWY" << endl;
+	cout << "Deleted first file" << endl;
 	FS.deleteFile(hello);
 	cout << "Deleted another file" << endl;
-*/
+
 //
 //	/*
 //	 * Write again (???)

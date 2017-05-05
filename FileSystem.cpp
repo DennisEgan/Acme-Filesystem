@@ -45,7 +45,6 @@ FCB* FileSystem::getFile(string name){
 int FileSystem::open(string filename, char mode){
 	cout << "opening " << filename << "..." << endl;
 	cout << filename << " is in directory: " << directory->containsFile(filename) << endl;
-
 	if((mode == 'r' || mode == 'w') && directory->containsFile(filename)){
 
 		// File already in FOT, update mode
@@ -56,15 +55,11 @@ int FileSystem::open(string filename, char mode){
 
 		// File not in FOT, put into FOT and change mode
 		else{
-			FCB* openFile = directory->getFile(filename);
-
+			FCB* openFile = new FCB(*(directory->getFile(filename)));
+			cout << "Printing OPENFILE" << endl;
+			openFile->print();
 			openFile->setMode(mode);
-
-			vector<FCB*> files = directory->getFiles();
-			cout << "When opening...\n";
-			for(auto it = files.begin(); it != files.end(); it++)
-				cout << (*it)->getFileName() << endl;
-
+			//openFile->setFileName(filename);
 			FOT.push_back(openFile);
 			idx = FOT.size()-1;
 		}
@@ -97,32 +92,16 @@ int FileSystem::open(string filename, char mode){
 bool FileSystem::close(int handle){
 	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
 
-	string name = FOT[handle]->getFileName();
+	const string name = FOT[handle]->getFileName();
 
-	FCB* updatedFile = FOT[handle]; //new FCB(*FOT[handle]);
-
-//	updatedFile->setMode('c');
-	cout << updatedFile->getFileName() << "???\n";
-
-	vector<FCB*> files = directory->getFiles();
-	int i = 0;
-	for(auto it = files.begin(); it != files.end(); it++){
-		cout <<i << " " << (*it)->getFileName() << endl;
-		i++;
-	}
+	FCB* updatedFile = new FCB(*FOT[handle]);
+	updatedFile->setMode('c');
 
 	directory->deleteFile(FOT[handle]->getFileName());
 	FOT.erase(FOT.begin()+handle);
 
 	directory->addFile(updatedFile);
 	cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
-
-	files = directory->getFiles();
-	i = 0;
-	for(auto it = files.begin(); it != files.end(); it++){
-		cout <<i << " " << (*it)->getFileName() << endl;
-		i++;
-	}
 
 	return true;
 	// OLD
@@ -381,7 +360,7 @@ bool FileSystem::deleteFile(string filename){
 			cout << "Freespace was empty" << endl;
 			delete freespace;
 
-//			freespace = new FCB(*(toDelete));
+			freespace = new FCB(*(toDelete));
 //			freespace->operator=(*(files[searchVal]));
 			freespace->operator=(*(toDelete));
 
@@ -393,6 +372,7 @@ bool FileSystem::deleteFile(string filename){
 			freespace->print();
 			cout << "......................." << endl;
 			freespace -> setFileName("freespace");
+			freespace -> setSize(0);
 			freespace->print();
 		}
 		return true;
