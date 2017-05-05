@@ -93,13 +93,10 @@ bool Directory::deleteFile(string name)
 			files.erase(files.begin() + i);
 			return true;
 		}
-
-		i++;
 	}
 
 	return false;
 }
-
 /*
  * Get file of name name from directory
  * :param name: name of file to get
