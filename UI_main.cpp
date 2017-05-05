@@ -101,6 +101,7 @@ int main(){
 
 					if (!acmeFS.close(args[1]))
 						cerr << "Error when closing " << args[1] << endl;
+
 				} else {
 					cerr << "Error when opening " << args[1] << endl;
 				}

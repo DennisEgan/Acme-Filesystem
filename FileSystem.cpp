@@ -15,7 +15,7 @@
 #include <vector>
 using namespace std;
 
-#define LOGGING false
+#define LOGGING true
 
 /*
  * Constructor for class
@@ -202,8 +202,9 @@ int FileSystem::read(string fileName){
  */
 int FileSystem::read(int handle, int numchars, char *buffer){
 
-	for(auto it = FOT.begin(); it != FOT.end(); it++)
-		cout << (*it)->getFileName() << endl;
+	cout << "Block size of " << FOT[handle]->getFileName() << endl
+	     << FOT[handle]->getBlockSize() << endl
+	     << "File size of "  << FOT[handle]->getSize();
 
 	if(FOT[handle]->getMode() != 'r'){
         if(LOGGING) {
