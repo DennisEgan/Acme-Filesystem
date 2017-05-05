@@ -27,41 +27,36 @@ int main(){
 			cout << i << ": " << args[i] << endl;
 		}
 
-		if (args[0] == "EXIT"){
-			cont = false;
-		}else if (args[0] == "DIR") {
-			acmeFS.printDir();
 		if (input.find_first_not_of(" \t\n\v\f\r") != std::string::npos && (!cin.eof())){
-			args = splitbystring(input, " ");
+
+            args = splitbystring(input, " ");
 			for (int i = 0; i < args.size(); i++){
 				cout << i << ": " << args[i] << endl;
 			}
-			if (args[0] == "EXIT"){
+
+			if(args[0] == "EXIT"){
 				cont = false;
-			}
-			else if (args[0] == "CREATE"){
-
-			}
-			else if (args[0] == "TYPE"){
-				memset(userInput, 0, MAX_STRING);
-				cout << endl;
-
-				while(!cin.eof()){
-					getline(cin, typeInput);
-				}
-				//while(EOF != scanf("%s", userInput));
-	    		cout << endl;
-	    		cout << "TYPEINPUT " << typeInput << endl;
-	    		//printf("YOU INPUT: %s\n", userInput);
-
+            } else if (args[0] == "DIR") {
+                acmeFS.printDir();
+            }
 		}
 		else if(args.size() == 2) {
 			if (args[0] == "CREATE") {
 				acmeFS.create(args[1]);
 
 			} else if (args[0] == "TYPE") {
-				acmeFS.read(args[1]);
+//                memset(userInput, 0, MAX_STRING);
+                cout << endl;
 
+                while(!cin.eof()){
+                    getline(cin, typeInput);
+                }
+                //while(EOF != scanf("%s", userInput));
+                cout << endl;
+                cout << "TYPEINPUT " << typeInput << endl;
+                //printf("YOU INPUT: %s\n", userInput);
+
+                acmeFS.read(args[1]);
 			}
 
 		}
