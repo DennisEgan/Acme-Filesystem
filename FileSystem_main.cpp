@@ -125,6 +125,9 @@ int main(){
 	FS.deleteFile(hola);
 	cout << "Deleted last file" << endl;
 
+    FS.deleteFile(hola);
+    cout << "Deleted one more file\n";
+
 //
 //	/*
 //	 * Write again (???)

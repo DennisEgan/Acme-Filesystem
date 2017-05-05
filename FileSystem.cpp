@@ -1,11 +1,25 @@
+/*
+ * FileSystem.cpp
+ *
+ * Implementation of FileSystem class
+ *
+ * Lead author:
+ *  Justin Lesko
+ *
+ * Contributors:
+ *  Dennis Egan
+ */
 #include "FileSystem.h"
 #include <iostream>
 #include <cstring>
 #include <vector>
 using namespace std;
 
-// Constructor
-//procedure author: Justin Lesko
+#define LOGGING true
+
+/*
+ * Constructor for class
+ */
 FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
 	//link blocks
 	directory = new Directory();
@@ -24,27 +38,45 @@ FileSystem::FileSystem():myDisk(BLOCK_SIZE, DISK_SIZE){
 	freespace->setFileEnd(DISK_SIZE-1);
 }
 
-// Deconstructor
+/*
+ * Deconstructor
+ */
 FileSystem::~FileSystem(){
 	delete freespace;
 	delete directory;
 }
 
-// Create file with name fileName
+/*
+ * Create file with name fileName
+ * Returns true if file not in directory already and created properly
+ *
+ * :param fileName: name to give to new file
+ */
 bool FileSystem::create(string fileName){
 	return directory->createFile(fileName);
 }
 
-// Get file with name name
+/*
+ * Get file with name name
+ * :param name: name of file to get in directory
+ */
 FCB* FileSystem::getFile(string name){
 	return directory->getFile(name);
 }
 
-
-//procedure author: Justin Lesko
+/*
+ * Open file in specific mode
+ * Returns handle of file if successfully opened in mode
+ *
+ * :param filename: name of file to open
+ * :parm mode: mode to open file in
+ */
 int FileSystem::open(string filename, char mode){
-	cout << "opening " << filename << "..." << endl;
-	cout << filename << " is in directory: " << directory->containsFile(filename) << endl;
+
+    if(LOGGING){
+        cout << "opening " << filename << "..." << endl;
+    }
+
 	if((mode == 'r' || mode == 'w') && directory->containsFile(filename)){
 
 		// File already in FOT, update mode
@@ -56,83 +88,123 @@ int FileSystem::open(string filename, char mode){
 		// File not in FOT, put into FOT and change mode
 		else{
 			FCB* openFile = new FCB(*(directory->getFile(filename)));
-			cout << "Printing OPENFILE" << endl;
-			openFile->print();
-			openFile->setMode(mode);
-			//openFile->setFileName(filename);
-			FOT.push_back(openFile);
+
+            if(LOGGING) {
+                cout << "Printing OPENFILE" << endl;
+                openFile->print();
+            }
+
+            openFile->setMode(mode);
+
+            FOT.push_back(openFile);
 			idx = FOT.size()-1;
 		}
 		return idx;
 	}
 
 	else {
-		cerr << "Error when opening " << filename << endl;
+		if(LOGGING) {
+            cerr << "Error when opening " << filename << endl;
+        }
 		return -1;
 	}
-	// Old:
-	//
-	// FCB *tmp = NULL;
-
-	// int searchVal = search(filename);
-	// if (searchVal != -1){
-	// 	if (mode == "w"){
-	// 		tmp = new FCB(*(files[searchVal]));
-	// 		cout << "tmp:" << endl;
-	// 		tmp->print();
-	// 		FOT.push_back(tmp);
-	// 	}
-	// }
-	// cout << "TEMPORARY: " << tmp << endl;
-	// cout << "REAL: " << files[0] << endl;
-		// }
 }
 
-//procedure author: Justin Lesko
+/*
+ * Wrapper for close function
+ * :param fileName: name of file to open
+ */
+bool FileSystem::close(string fileName) {
+    int handle = searchFOT(fileName);
+    if (handle != -1) {
+        return close(searchFOT(fileName));
+    }
+    else {
+        if(LOGGING) {
+            cerr << fileName << " is either already closed or does not exist.\n";
+        }
+        return -1;
+    }
+}
+
+/*
+ * Close file with handle
+ * Returns true if properly closed
+ *
+ * :param handle: handle of file to close in FOT
+ */
 bool FileSystem::close(int handle){
-	cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
+
+    if(LOGGING){
+        cout << "closing " << FOT[handle]->getFileName() << "..." << endl;
+    }
 
 	const string name = FOT[handle]->getFileName();
 
+    // Copy the updated file to be added back to the directory
 	FCB* updatedFile = new FCB(*FOT[handle]);
 	updatedFile->setMode('c');
 
+    // Delete the current version in the directory and it's entry in FOT
 	directory->deleteFile(FOT[handle]->getFileName());
 	FOT.erase(FOT.begin()+handle);
 
+    // Add update version of file to directory
 	directory->addFile(updatedFile);
-	cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
+
+    if(LOGGING) {
+        cout << "Is " << name << " in directory after closing? " << directory->containsFile(name) << endl;
+    }
 
 	return true;
-	// OLD
-	// delete files[searchVal];
-	// files[searchVal] = NULL;
-	// files[searchVal] = new FCB(*FOT[handle]);
-	// // cout << "file:" << endl;
-	// // files[searchVal]->print();
-	// // cout << "FOT[Handle] ADDRESS:" << FOT[handle] << endl;
-	// // FCB* tmp = FOT[handle];
-	// // cout << "tmp ADDRESS:" << tmp << endl;
-	// // delete tmp;
-	// // tmp = NULL;
-	// delete FOT[handle];
-	// FOT.erase(FOT.begin() + handle);
-	//cout << "FOT[0]" << (FOT[0]) << endl;
-	//FOT[0]->print();
 }
-//procedure author: Justin Lesko
+
+/*
+ * Wrapper for read
+ * Open file of name fileName
+ *
+ * :param fileName: name of file to open
+ * :param buffer: buffer to read into
+ */
+int FileSystem::read(string fileName, char *buffer){
+    int handle = searchFOT(fileName);
+
+    if(handle != -1)
+        return read(searchFOT(fileName), strlen(buffer), buffer);
+
+    else{
+        if(LOGGING) {
+            cerr << fileName << " is not currently open!\n";
+        }
+        return -1;
+    }
+}
+
+/*
+ * Read file with handle handle in FOT
+ * Returns number of chars read
+ *
+ * :param handle: handle of file in FOT
+ * :param numchars: number of chars in buffer
+ * :param buffer: buffer to read into
+ */
 int FileSystem::read(int handle, int numchars, char *buffer){
 
 	for(auto it = FOT.begin(); it != FOT.end(); it++)
 		cout << (*it)->getFileName() << endl;
 
 	if(FOT[handle]->getMode() != 'r'){
-		cerr << FOT[handle]->getFileName() << " is not in read mode!\n";
-		return -1;
+        if(LOGGING) {
+            cerr << FOT[handle]->getFileName() << " is not in read mode!\n";
+        }
+        return -1;
 	}
 
-	cout << "Number Of Chars to Read " << numchars << endl;
-	int nextBlockToRead = 0;
+    if(LOGGING) {
+        cout << "Number Of Chars to Read " << numchars << endl;
+    }
+
+    int nextBlockToRead = 0;
 	int blockToRead = FOT[handle]->getBlockPointer();
 	
 	while (numchars > 0){
@@ -140,7 +212,10 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 		int status = myDisk.read(blockToRead, readBuffer);
 		
 		if(status == -1){
-			cerr << "Error when reading from disk\n";
+            if(LOGGING) {
+                cerr << "Error when reading from disk\n";
+            }
+            return -1;
 		}
 
 		nextBlockToRead = readBuffer->data[0];
@@ -167,17 +242,44 @@ int FileSystem::read(int handle, int numchars, char *buffer){
 
 }
 
-//procedure author: Justin Lesko
+/*
+ * Wrapper for write function
+ * :param fileName: name of file to write to
+ * :param buffer: buffer containing what to write to file
+ */
+int FileSystem::write(string fileName, char* buffer){
+    int handle = searchFOT(fileName);
+    if(handle != -1){
+        return write(handle,strlen(buffer),buffer);
+    }
+    else{
+        if(LOGGING){
+            cerr << fileName << " is not open.\n";
+        }
+        return -1;
+    }
+}
+
+/*
+ * Write to file
+ * :param handle: handle of file in FOT
+ * :param numchars: number of characters to write to file
+ * :param buffer: contains what to write to file
+ */
 int FileSystem::write(int handle, int numchars, char* buffer){
 	
 	if(FOT[handle]->getMode() != 'w'){
-		cerr << "File is not in write mode!\n";
+		if(LOGGING){
+            cerr << "File is not in write mode!\n";
+        }
 		return -1;
 	}
 
-	cout << "Writing to " << FOT[handle]->getFileName() << "..." << endl;
-	cout << "Number of chars to write = " << numchars << endl;
-	
+    if(LOGGING) {
+        cout << "Writing to " << FOT[handle]->getFileName() << "..." << endl;
+        cout << "Number of chars to write = " << numchars << endl;
+    }
+
 	int sentinel = -1,
 	    blockToWrite = 0,
 	    nextBlockToWrite = 0,
@@ -199,9 +301,11 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 			offset = 1;
 		}
 		else{
-			cout << "Error, no blocks available1" << endl;
-			cout << "\tChars Written = " << charsWritten << endl;
-			return charsWritten; // 0
+            if(LOGGING) {
+                cout << "Error, no blocks available" << endl;
+                cout << "\tChars Written = " << charsWritten << endl;
+            }
+            return charsWritten;
 		}
 	}
 
@@ -237,9 +341,11 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 				myBuffer = NULL;
 			}
 			else{
-				cout << "Error, no blocks available2" << endl;
-				cout << "\tChars Written = " << charsWritten << endl;
-				return charsWritten;
+                if(LOGGING) {
+                    cout << "Error, no blocks available" << endl;
+                    cout << "\tChars Written = " << charsWritten << endl;
+                }
+                return charsWritten;
 			}
 		}
 		else{
@@ -249,8 +355,12 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 	while(numchars > 0){
 		blockToWrite = FOT[handle]->getFileEnd();
 		DiskBlockType *writeBuffer = new DiskBlockType(BLOCK_SIZE);
-		cout << "Writing to block ===== " << blockToWrite << endl;
-		if(offset > 1){
+
+        if(LOGGING) {
+            cout << "Writing to block ===== " << blockToWrite << endl;
+        }
+
+        if(offset > 1){
 			myDisk.read(blockToWrite,writeBuffer);
 		}
 		for (int i = offset; i < BLOCK_SIZE; i++){
@@ -264,13 +374,8 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 			charsWritten++;
 			FOT[handle]->setSize(FOT[handle]->getSize()+1);
 		}
-		// if (blockToWrite == DISK_SIZE-1){
-		// 	cout << "LAST BLOCK AVAILABLE" << endl;
-		// 	writeBuffer->data[0] = (char)(sentinel);
-		// 	myDisk.write(blockToWrite,writeBuffer);
-		// 	return charsWritten;
-		// }
-		if ((blockFull && numchars > 0)){
+
+        if ((blockFull && numchars > 0)){
 			if (freespace->getBlockSize() > 0){
 				nextBlockToWrite = getFreeBlock();
 				DiskBlockType *myBuffer = new DiskBlockType(BLOCK_SIZE);
@@ -291,23 +396,33 @@ int FileSystem::write(int handle, int numchars, char* buffer){
 			else{
 				writeBuffer->data[0] = (char)(sentinel);
 				myDisk.write(blockToWrite,writeBuffer);
-				cout << "No blocks available3" << endl;
-				cout << "\tChars Written = " << charsWritten << endl;
-				return charsWritten;
+
+                if(LOGGING) {
+                    cout << "No blocks available" << endl;
+                    cout << "\tChars Written = " << charsWritten << endl;
+                }
+                return charsWritten;
 			}
 		}else{
 			writeBuffer->data[0] = (char)(sentinel);
 			myDisk.write(blockToWrite,writeBuffer);
 		}
+
 		blockFull = false;
 		delete writeBuffer;
 		writeBuffer = NULL;
 	}
-	cout << "\tChars Written = " << charsWritten << endl;
+    if(LOGGING){
+	    cout << "\tChars Written = " << charsWritten << endl;
+    }
+
 	return charsWritten;
+
 }
 
-//procedure author: Justin Lesko
+/*
+ * Get free block of memory
+ */
 int FileSystem::getFreeBlock(){
 	int blockIndex = 0;
 	if (freespace->getBlockSize() != 0){
@@ -325,11 +440,20 @@ int FileSystem::getFreeBlock(){
 	else{
 		blockIndex = -1;
 	}
-	cout << "popping block " << blockIndex << endl;
-	cout << "freespace blocks left = " << freespace->getBlockSize() << "/" << DISK_SIZE << endl;
+
+    if(LOGGING){
+        cout << "popping block " << blockIndex << endl;
+        cout << "freespace blocks left = " << freespace->getBlockSize() << "/" << DISK_SIZE << endl;
+    }
+
 	return blockIndex;
 }
 
+/*
+ * Delete file of name filename in directory
+ * Returns true if successfully deleted
+ * :param filename: name of file to delete in directory
+ */
 bool FileSystem::deleteFile(string filename){
 
 	// Get file
@@ -352,80 +476,52 @@ bool FileSystem::deleteFile(string filename){
 			freeBuffer = NULL;
 
 			directory->deleteFile(filename);
+<<<<<<< HEAD
 			freespace->print();
 //			delete toDelete;
 
 //			files.erase(files.begin() + searchVal);
+=======
+>>>>>>> 2eaad7f9015eca08034f5fbadadd35ccac36d08b
 		}
 		else{
-			cout << "Freespace was empty" << endl;
+            if(LOGGING){
+			    cout << "Freespace was empty" << endl;
+            }
+
 			delete freespace;
 
 			freespace = new FCB(*(toDelete));
-//			freespace->operator=(*(files[searchVal]));
 			freespace->operator=(*(toDelete));
 
 			directory->deleteFile(filename);
 
-//			files[searchVal] = NULL;
-//			files.erase(files.begin() + searchVal);
-			cout << "PRINTING FREESPACE COPY" << endl;
-			freespace->print();
-			cout << "......................." << endl;
-			freespace -> setFileName("freespace");
-			freespace -> setSize(0);
-			freespace->print();
+            if(LOGGING){
+                cout << "PRINTING FREESPACE COPY" << endl;
+                freespace->print();
+                cout << "......................." << endl;
+                freespace -> setFileName("freespace");
+                freespace -> setSize(0);
+                freespace->print();
+            }
 		}
 		return true;
 	}
 	else{
-		cerr << "File not found. Cannot delete.\n";
+        if(LOGGING){
+		    cerr << "File not found. Cannot delete.\n";
+        }
 		return false;
 	}
-	/*int searchVal = search(filename);
-	if (searchVal != -1){
-		cout << "FILE WAS FOUND" << endl;
-		if (freespace->getBlockPointer() != -1){
-			DiskBlockType *freeBuffer = new DiskBlockType(BLOCK_SIZE);
-			myDisk.read(freespace->getFileEnd(), freeBuffer);
-
-			freeBuffer->data[0] = files[searchVal]->getBlockPointer();
-			myDisk.write(freespace->getFileEnd(), freeBuffer);
-
-			freespace->setFileEnd(files[searchVal]->getFileEnd());
-			freespace->setBlockSize(freespace->getBlockSize() + files[searchVal]->getBlockSize());
-
-			delete freeBuffer;
-
-			freeBuffer = NULL;
-            delete files[searchVal];
-
-			files[searchVal] = NULL;
-            files.erase(files.begin() + searchVal);
-		}
-		else{
-			cout << "Freespace was empty" << endl;
-			delete freespace;
-			freespace = new FCB(*(files[searchVal]));
-			//freespace->operator=(*(files[searchVal]));
-            delete files[searchVal];
-            files[searchVal] = NULL;
-            files.erase(files.begin() + searchVal);
-			cout << "PRINTING FREESPACE COPY" << endl;
-			freespace->print();
-			cout << "......................." << endl;
-			freespace -> setFileName("freespace");
-            freespace->print();
-		}
-        return true;
-	}
-	else{
-		cout << "file not found to delete" << endl;
-        return false;
-	}*/
 }
 
-//procedure author: Justin Lesko
+/*
+ * Search FOT for file of name fileName
+ * Returns index (aka the handle) of the file in FOT if found
+ * Else, -1
+ *
+ * :param fileName: name of file to find in FOT
+ */
 int FileSystem::searchFOT(string fileName){
 
 	int index = -1;
@@ -438,9 +534,11 @@ int FileSystem::searchFOT(string fileName){
 	}
 	return index;
 }
-//procedure author: Justin Lesko
+
+/*
+ * Get number of characters in file
+ * :param file: handle of file in FOT to get size of
+ */
 int FileSystem::getNumChars(int file){
-//	files[file]->print();
-//	cout << "file size = " << files[file]->getSize() << endl;
 	return FOT[file]->getSize();
 }
