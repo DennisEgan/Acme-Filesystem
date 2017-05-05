@@ -68,16 +68,11 @@ bool UI::edit(string fileName) {
 		string newInput;
 		getline(cin, newInput);
 
-		// If within valid length, append to current string
-		if (strlen(newInput.c_str()) + strlen(typeInput.c_str()) > MAX_STRING)
-			break;
-		else {
-			if(typeInput == "")
-				typeInput = newInput;
-			else
-				typeInput = typeInput + "\n" + newInput;
+		if(typeInput == "")
+			typeInput = newInput;
+		else
+			typeInput = typeInput + "\n" + newInput;
 
-		}
 	}
 
 	// Clean up a bit
