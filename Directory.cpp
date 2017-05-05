@@ -53,10 +53,12 @@ vector<FCB*> Directory::getFiles(){ return files; }
  */
 bool Directory::addFile(FCB* newFile)
 {
-	if(!containsFile(newFile->getFileName()))
+	if(!containsFile(newFile->getFileName())) {
 		files.push_back(newFile);
+		return true;
+	}
 	else{
-		cerr << "You fucked up this time bud.\n";
+		return false;
 	}
 }
 
