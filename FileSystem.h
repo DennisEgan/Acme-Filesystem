@@ -49,7 +49,7 @@ public:
 	bool	   deleteDirectory();
 
 	void printDir();
-
+	bool containsFile(string);
 
 private:
 
