@@ -4,14 +4,17 @@
 #include "FileSystem.h"
 using namespace std;
 
-#define MAX_STRING 128
+#define MAX_STRING 100 // Disk of 10 blocks, of size 10 chars
 #define MAX_ARGS 2
 
 
 vector<string> splitbystring(string , string );
 int main(){
+	char userInput[MAX_STRING];
+	char ch;
 	bool cont = true;
 	string input;
+	string typeInput;
 	vector<string> args;
 
 	FileSystem acmeFS;
@@ -28,8 +31,28 @@ int main(){
 			cont = false;
 		}else if (args[0] == "DIR") {
 			acmeFS.printDir();
+		if (input.find_first_not_of(" \t\n\v\f\r") != std::string::npos && (!cin.eof())){
+			args = splitbystring(input, " ");
+			for (int i = 0; i < args.size(); i++){
+				cout << i << ": " << args[i] << endl;
+			}
+			if (args[0] == "EXIT"){
+				cont = false;
+			}
+			else if (args[0] == "CREATE"){
 
-		} else if(args[0] == "EDIT") {
+			}
+			else if (args[0] == "TYPE"){
+				memset(userInput, 0, MAX_STRING);
+				cout << endl;
+
+				while(!cin.eof()){
+					getline(cin, typeInput);
+				}
+				//while(EOF != scanf("%s", userInput));
+	    		cout << endl;
+	    		cout << "TYPEINPUT " << typeInput << endl;
+	    		//printf("YOU INPUT: %s\n", userInput);
 
 		}
 		else if(args.size() == 2) {
