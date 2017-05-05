@@ -177,7 +177,7 @@ void UI::run() {
 	}
 
 }
-
+			
 vector<string> splitbystring(string token, string delim){
 	int left = 0;
 	vector<string>ret_vec;
