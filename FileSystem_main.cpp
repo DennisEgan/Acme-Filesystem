@@ -128,6 +128,8 @@ int main(){
 	cout << "Deleted first file" << endl;
 	FS.deleteFile(hello);
 	cout << "Deleted another file" << endl;
+	FS.deleteFile(hola);
+	cout << "Deleted last file" << endl;
 
 //
 //	/*

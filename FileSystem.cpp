@@ -357,6 +357,7 @@ bool FileSystem::deleteFile(string filename){
 			freeBuffer = NULL;
 
 			directory->deleteFile(filename);
+			freespace->print();
 //			delete toDelete;
 
 //			files.erase(files.begin() + searchVal);
