@@ -20,6 +20,20 @@ using namespace std;
 vector<string> splitbystring(string , string );
 
 /*
+ * Constructor
+ */
+UI::UI(){
+
+}
+
+/*
+ * Deconstructor
+ */
+UI::~UI(){
+
+}
+
+/*
  * Print directory
  */
 void UI::dir() {
@@ -119,7 +133,7 @@ bool UI::type(string fileName) {
  */
 bool UI::deleteFile(string fileName) {
 	if(!FS.deleteFile(fileName)) {
-		cerr << "Error when deleting " << args[1] << endl;
+		cerr << "Error when deleting " << fileName << endl;
 	}
 }
 
@@ -177,7 +191,7 @@ void UI::run() {
 	}
 
 }
-			
+
 vector<string> splitbystring(string token, string delim){
 	int left = 0;
 	vector<string>ret_vec;

@@ -5,15 +5,15 @@
 #
 # A List of all the source files that should be compiled together
 #
-SOURCES = diskprocess.cpp FCB.cpp Directory.cpp FileSystem.cpp UI_main.cpp
+SOURCES = diskprocess.cpp FCB.cpp Directory.cpp FileSystem.cpp UI.cpp CISC3595_team1_atos-fs.cpp
 #
 # A list of the objects that result from the compilation process
 #
-OBJECTS = diskprocess.o FCB.o Directory.o FileSystem.o UI_main.cpp
+OBJECTS = diskprocess.o FCB.o Directory.o FileSystem.o UI.o CISC3595_team1_atos-fs.o
 #
 # A list of include files on which theh compilation depends
 #
-DEFS = diskprocess.h FCB.h Directory.h FileSystem.h
+DEFS = diskprocess.h FCB.h Directory.h FileSystem.h UI.h
 #
 # What flags to send to the compiler when you compile source files
 #
@@ -25,4 +25,4 @@ LIBFLAGS = -lm
 #
 
 FCB_main: $(SOURCES) $(DEFS)
-	g++ -std=c++11 $(CPPFAGS) $(SOURCES) -o fs $(LIBFLAGS)
+	g++ -std=c++11 $(CPPFAGS) $(SOURCES) -o CISC3595_team1_atos-fs $(LIBFLAGS)
