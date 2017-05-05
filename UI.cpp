@@ -45,7 +45,7 @@ void UI::dir() {
  * :param fileName: name of file to create
  */
 bool UI::create(string fileName) {
-	FS.create(fileName);	
+	return FS.create(fileName);
 }
 
 /*
@@ -90,11 +90,16 @@ bool UI::edit(string fileName) {
 
 		buffer = NULL;
 
-		if (!FS.close(fileName))
+		if (!FS.close(fileName)) {
 			cerr << "Error when closing " << fileName << endl;
+			return false;
+		}
+		else
+			return true;
 
 	} else {
 		cerr << "Error when opening " << fileName << endl;
+		return false;
 	}
 }
 
@@ -109,22 +114,26 @@ bool UI::type(string fileName) {
 	
 	// File opened successfully
 	if (FS.open(fileName, 'r') != -1) {
-	
-		FS.read(fileName);	// Write to file
 
-		cout << endl;			// Padding
+		FS.read(fileName);    // Write to file
+
+		cout << endl;            // Padding
 
 		// Check if file closed properly
-		if(!FS.close(fileName)){
+		if (!FS.close(fileName)) {
 			cerr << "Error when closing " << fileName << endl;
-		}
+			return false;
 
-	} 
+		} else {
+			return true;
+		}
+	}
 		
 	// Error when opening file
 	else {
 		cerr << "Error when opening " << fileName << " in read mode.\n";
-	}	
+		return false;
+	}
 }
 
 /*
@@ -134,6 +143,9 @@ bool UI::type(string fileName) {
 bool UI::deleteFile(string fileName) {
 	if(!FS.deleteFile(fileName)) {
 		cerr << "Error when deleting " << fileName << endl;
+		return false;
+	} else {
+		return true;
 	}
 }
 
