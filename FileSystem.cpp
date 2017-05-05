@@ -155,6 +155,7 @@ bool FileSystem::close(int handle){
 
     // Delete the current version in the directory and it's entry in FOT
 	directory->deleteFile(FOT[handle]->getFileName());
+	delete FOT[handle];
 	FOT.erase(FOT.begin()+handle);
 
     // Add update version of file to directory
