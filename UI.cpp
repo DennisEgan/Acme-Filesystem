@@ -38,6 +38,7 @@ UI::~UI(){
  */
 void UI::dir() {
 	FS.printDir();
+
 }
 
 /*
@@ -45,7 +46,7 @@ void UI::dir() {
  * :param fileName: name of file to create
  */
 bool UI::create(string fileName) {
-	FS.create(fileName);	
+	return FS.create(fileName);
 }
 
 /*
