@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-
+#include "FileSystem.h"
 using namespace std;
 
 #define MAX_STRING 100 // Disk of 10 blocks, of size 10 chars
@@ -17,10 +17,20 @@ int main(){
 	string typeInput;
 	vector<string> args;
 
+	FileSystem acmeFS;
 
 	while (cont){
 		cout << "$$";
 		getline(cin, input);
+		args = splitbystring(input, " ");
+		for (int i = 0; i < args.size(); i++){
+			cout << i << ": " << args[i] << endl;
+		}
+
+		if (args[0] == "EXIT"){
+			cont = false;
+		}else if (args[0] == "DIR") {
+			acmeFS.printDir();
 		if (input.find_first_not_of(" \t\n\v\f\r") != std::string::npos && (!cin.eof())){
 			args = splitbystring(input, isspace());
 			for (int i = 0; i < args.size(); i++){
@@ -35,7 +45,7 @@ int main(){
 			else if (args[0] == "TYPE"){
 				memset(userInput, 0, MAX_STRING);
 				cout << endl;
-				
+
 				while(!cin.eof()){
 					getline(cin, typeInput);
 				}
@@ -44,18 +54,20 @@ int main(){
 	    		cout << "TYPEINPUT " << typeInput << endl;
 	    		//printf("YOU INPUT: %s\n", userInput);
 
-			}
-			else if (args[0] == "DIR"){
-				cout << "\tATOS-FS Directory Listing" << endl;
-				cout << "\tFILENAME\t\t\tSIZE(blks)" << endl;
+		}
+		else if(args.size() == 2) {
+			if (args[0] == "CREATE") {
+				acmeFS.create(args[1]);
 
+			} else if (args[0] == "TYPE") {
+				acmeFS.read(args[1]);
 
+			}
 
-				cout << "\tFREE SPACE blks" << endl;
-			}
-			else{
-				cout << "invalid" << endl;
-			}
+		}
+
+		else{
+			cout << "Invalid\n";
 		}
 	}
 

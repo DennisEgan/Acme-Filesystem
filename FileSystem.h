@@ -33,7 +33,7 @@ public:
 	bool close(string);
 	bool close(int);
 
-	int read(string, char*);
+	int read(string);
 	int read(int, int, char*);
 
 	int write(string, char*);
@@ -47,6 +47,9 @@ public:
 
 	Directory* getDirectory();
 	bool	   deleteDirectory();
+
+	void printDir();
+
 
 private:
 
