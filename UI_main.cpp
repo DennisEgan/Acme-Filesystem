@@ -22,7 +22,7 @@ int main(){
 		cout << "$$";
 		getline(cin, input);
 		if (input.find_first_not_of(" \t\n\v\f\r") != std::string::npos && (!cin.eof())){
-			args = splitbystring(input, " ");
+			args = splitbystring(input, isspace());
 			for (int i = 0; i < args.size(); i++){
 				cout << i << ": " << args[i] << endl;
 			}
