@@ -14,7 +14,6 @@ int main(){
 	char ch;
 	bool cont = true;
 	string input;
-	string typeInput;
 	vector<string> args;
 
 	FileSystem acmeFS;
@@ -22,50 +21,63 @@ int main(){
 	while (cont){
 		cout << "$$";
 		getline(cin, input);
-		args = splitbystring(input, " ");
-		for (int i = 0; i < args.size(); i++){
-			cout << i << ": " << args[i] << endl;
-		}
-
-		if (args[0] == "EXIT"){
-			cont = false;
-		}else if (args[0] == "DIR") {
-			acmeFS.printDir();
+		cin.clear();
 		if (input.find_first_not_of(" \t\n\v\f\r") != std::string::npos && (!cin.eof())){
-			args = splitbystring(input, isspace());
+			args = splitbystring(input, " ");
 			for (int i = 0; i < args.size(); i++){
 				cout << i << ": " << args[i] << endl;
 			}
 			if (args[0] == "EXIT"){
 				cont = false;
 			}
-			else if (args[0] == "CREATE"){
-
+			else if (args[0] == "DIR") {
+				acmeFS.printDir();
 			}
-			else if (args[0] == "TYPE"){
+			
+			else if(args.size() == 2) {
+				if (args[0] == "CREATE") {
+					acmeFS.create(args[1]);
+				}
+				else if (args[0] == "TYPE") {
+					acmeFS.read(args[1]);
+
+				}
+				else if (args[0] == "EDIT"){
 				memset(userInput, 0, MAX_STRING);
 				cout << endl;
-
+				string typeInput;
 				while(!cin.eof()){
-					getline(cin, typeInput);
+					string newInput;
+					getline(cin, newInput);
+
+					if(strlen(newInput.c_str())+strlen(typeInput.c_str()) > MAX_STRING)
+						break;
+					else
+						typeInput = typeInput + newInput;
+					cout << "TYPEINPUT " << typeInput << endl;
 				}
+				cin.clear();
 				//while(EOF != scanf("%s", userInput));
 	    		cout << endl;
 	    		cout << "TYPEINPUT " << typeInput << endl;
 	    		//printf("YOU INPUT: %s\n", userInput);
+	    		int opened = acmeFS.open(args[1], 'w');
+	    		char* buffer = (char*)typeInput.c_str();
+	    		int writtenChars = acmeFS.write(args[1], buffer);
+	    		bool closed = acmeFS.close(args[1]);
 
-		}
-		else if(args.size() == 2) {
-			if (args[0] == "CREATE") {
-				acmeFS.create(args[1]);
+	    		opened = acmeFS.open(args[1], 'r');
+	    		int charsRead = acmeFS.read(args[1]);
+	    		closed = acmeFS.close(args[1]);
 
-			} else if (args[0] == "TYPE") {
-				acmeFS.read(args[1]);
+	    		acmeFS.printDir();
 
+	    		return 0;
+
+	    		}
 			}
 
 		}
-
 		else{
 			cout << "Invalid\n";
 		}
